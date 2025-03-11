@@ -1,0 +1,47 @@
+.icon-hover:hover, .icon-hover:focus, .icon-hover.active {
+    color: #221417 !important;
+    transform: scale(1.1);
+  }
+
+  .icon-hover:active {
+    color: #130e0f !important;
+  }
+
+  .icon-hover.active {
+    color: #2c2325 !important;
+  }
+
+  .dropdown-menu li a:hover {
+    background-color: #FF385C !important;
+    color: white !important;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-brand img {
+      width: 100px;
+      height: 35px;
+    }
+
+    .fs-3 {
+      font-size: 1.5rem !important;
+    }
+
+    .badge {
+      font-size: 0.7rem !important;
+    }
+
+    .d-md-block {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .d-flex.align-items-center.gap-3 {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .navbar-toggler {
+      order: -1;
+    }
+  }

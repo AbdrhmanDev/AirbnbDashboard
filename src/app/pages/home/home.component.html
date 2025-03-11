@@ -1,0 +1,48 @@
+<div class="home-container">
+    <div class="page-header">
+      <h1>الفنادق</h1>
+      <button mat-raised-button color="primary" routerLink="/add-hotel">
+        <mat-icon>add</mat-icon>
+        إضافة فندق
+      </button>
+    </div>
+  
+    <!-- <div class="hotels-grid">
+      <div class="hotel-card" *ngFor="let hotel of hotels">
+        <img [src]="hotel.image || 'assets/images/placeholder.jpg'" [alt]="hotel.title">
+        <div class="hotel-info">
+          <h3>{{hotel.title}}</h3>
+          <p class="location">
+            <mat-icon>location_on</mat-icon>
+            {{hotel.location}}
+          </p>
+          <p class="category">{{ getCategoryLabel(hotel.category) }}</p>
+          <div class="rating">
+            <span class="stars">
+              <mat-icon *ngFor="let star of [].constructor(hotel.rating)">star</mat-icon>
+            </span>
+            <span class="reviews">({{ hotel.reviews }} تقييم)</span>
+          </div>
+          <div class="details">
+            <span><mat-icon>hotel</mat-icon> {{hotel.totalRooms}} غرفة</span>
+            <span><mat-icon>bathroom</mat-icon> {{hotel.bathrooms}} حمام</span>
+          </div>
+          <p class="description">{{ hotel.description | slice:0:100 }}...</p>
+          <div class="price">
+            <span class="amount">{{ hotel.price }} ريال</span>
+            <span class="per-night">/ ليلة</span>
+          </div>
+          <div class="status" [class.available]="hotel.status === 'available'">
+            {{ hotel.status === 'available' ? 'متاح' : 'غير متاح' }}
+          </div>
+          <div class="actions">
+            <button mat-button color="primary">عرض التفاصيل</button>
+            <button mat-button [disabled]="hotel.status === 'unavailable'">
+              حجز الآن
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+  </div>
+  

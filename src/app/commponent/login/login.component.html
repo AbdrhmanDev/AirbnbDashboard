@@ -1,0 +1,36 @@
+<div class="login-container">
+  <h2 class="text-center">Login</h2>
+  <button class="btn btn-outline-danger btn-block my-3">Use Google Account</button>
+  <p class="text-center">or</p>
+  
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
+      <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
+        Valid email is required.
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password">
+      <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+        Password must be at least 6 characters.
+      </small>
+    </div>
+
+    <!-- <div class="form-group radio-group">
+      <div class="custom-radio">
+        <input type="radio" id="host" formControlName="role" value="host">
+        <label for="host">Host</label>
+      </div>
+      <div class="custom-radio">
+        <input type="radio" id="admin" formControlName="role" value="admin">
+        <label for="admin">Admin</label>
+      </div>
+    </div> -->
+
+    <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Sign In</button>
+  </form>
+</div>

@@ -1,0 +1,40 @@
+<nav class="navbar">
+  <div class="container-fluid">
+    <!-- Logo and brand -->
+    <div class="navbar-brand">
+      <img src="assets/logo.png" alt="Logo">
+    </div>
+
+    <!-- Navbar items -->
+    <div class="navbar-items">
+      <!-- Notifications -->
+      <div class="notifications-wrapper">
+        <button class="btn-icon" (click)="toggleNotifications()">
+          <span class="material-icons">notifications</span>
+          <span *ngIf="unreadCount > 0" class="notification-badge">
+            {{unreadCount}}
+          </span>
+        </button>
+        <div class="notifications-panel" *ngIf="showNotifications">
+          <app-notifications></app-notifications>
+        </div>
+      </div>
+
+      <!-- Balance -->
+      <div class="balance-wrapper">
+        <span class="balance-label">الرصيد:</span>
+        <span class="balance-amount">{{balance}} ريال</span>
+      </div>
+
+      <!-- User Profile -->
+      <div class="user-profile">
+        <img src="assets/avatar.png" alt="User Avatar" class="avatar">
+        <div class="user-info">
+          <span class="user-name">{{userName}}</span>
+          <span class="user-role">{{userRole}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav> 
+</nav> 

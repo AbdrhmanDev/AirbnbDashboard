@@ -1,0 +1,155 @@
+.products-container {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+  }
+
+  .filters {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  .filter-buttons button {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(5px);
+  }
+
+  .filter-buttons button.active {
+    background: rgba(25, 118, 210, 0.1);
+    color: #1976d2;
+  }
+
+  .hotel-image {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .hotel-title {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rating {
+    display: flex;
+    gap: 2px;
+  }
+
+  .rating mat-icon {
+    font-size: 16px;
+    color: rgba(255, 193, 7, 0.9);
+    width: 16px;
+    height: 16px;
+  }
+
+  .status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(244, 67, 54, 0.1);
+    color: #f44336;
+    font-size: 12px;
+    backdrop-filter: blur(5px);
+  }
+
+  .status-badge.available {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4caf50;
+  }
+
+  table {
+    width: 100%;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  th.mat-header-cell {
+    background: rgba(245, 245, 245, 0.8);
+    color: #2c3e50;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 16px 8px;
+  }
+
+  td.mat-cell {
+    padding: 12px 8px;
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  tr.mat-row:hover {
+    background: rgba(248, 249, 250, 0.8);
+  }
+
+  mat-form-field {
+    width: 300px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    padding: 4px 8px;
+  }
+
+  .mat-column-actions {
+    width: 100px;
+    text-align: center;
+  }
+
+  .mat-column-image {
+    width: 80px;
+  }
+
+  .mat-column-status {
+    width: 100px;
+  }
+
+  .mat-column-price {
+    width: 120px;
+  }
+
+  /* تحسينات إضافية للشفافية */
+  ::ng-deep .mat-form-field-outline {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 4px;
+  }
+
+  ::ng-deep .mat-paginator {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+
+  button.mat-raised-button {
+    backdrop-filter: blur(5px);
+  }
+
+  [dir="rtl"] th {
+    text-align: right;
+  }
+
+  [dir="rtl"] .mat-paginator {
+    direction: ltr;
+  }

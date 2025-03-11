@@ -1,0 +1,55 @@
+<mat-card *ngIf="hotel" class="hotel-card">
+    <mat-card-header>
+      <mat-card-title>{{ hotel.title }}</mat-card-title>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <!-- Owl Carousel -->
+      <div class="hotel-images">
+        <div class="image-container" *ngFor="let image of hotel.images">
+          <img [src]="image" class="hotel-image" alt="Hotel Image" />
+        </div>
+      </div>
+  
+      <div class="hotel-info">
+        <p>
+          <mat-icon>location_on</mat-icon>
+          <strong>Location:</strong> {{ hotel.address.city }}, {{ hotel.address.country }}
+        </p>
+        <p>
+          <mat-icon>attach_money</mat-icon>
+          <strong>Price per night:</strong> {{ hotel.pricePerNight }} USD
+        </p>
+        <p>
+          <mat-icon>star</mat-icon>
+          <strong>Rating:</strong> {{ hotel.rating }} / 5
+        </p>
+        <p>
+          <mat-icon>info</mat-icon>
+          <strong>Status:</strong>
+          <span [ngClass]="{
+            'status-available': hotel.status === 'available',
+            'status-booked': hotel.status === 'booked',
+            'status-unavailable': hotel.status === 'unavailable',
+            'status-maintenance': hotel.status === 'maintenance'
+          }">
+            {{ hotel.status | titlecase }}
+          </span>
+        </p>
+        <p>
+          <mat-icon>meeting_room</mat-icon>
+          <strong>Rooms:</strong> {{ hotel.rooms }}
+        </p>
+      </div>
+    </mat-card-content>
+  
+    <mat-card-actions align="end">
+      <button mat-button color="warn">
+        <mat-icon>edit</mat-icon> Edit
+      </button>
+      <button mat-button color="primary">
+        <mat-icon>delete</mat-icon> Delete
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  

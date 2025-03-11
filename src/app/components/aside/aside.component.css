@@ -1,0 +1,92 @@
+.sidebar-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #2c3e50;
+  color: #ecf0f1;
+}
+
+.sidebar-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 20px 0;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin: 5px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item a {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  color: #ecf0f1;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-item.active {
+  background: #3498db;
+}
+
+.nav-item.active a {
+  color: white;
+}
+
+.material-icons {
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.nav-text {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* قائمة الإعدادات */
+.settings-menu {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 15px;
+}
+
+/* تأثيرات حركية */
+.nav-item a:hover {
+  transform: translateX(-5px);
+}
+
+/* تنسيق الأيقونات عند التفعيل */
+.nav-item.active .material-icons {
+  color: white;
+}
+
+/* تنسيقات للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .nav-text {
+    font-size: 13px;
+  }
+  
+  .nav-item {
+    margin: 3px 10px;
+  }
+  
+  .nav-item a {
+    padding: 10px 12px;
+  }
+} 

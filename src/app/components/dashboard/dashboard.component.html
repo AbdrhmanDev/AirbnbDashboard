@@ -1,0 +1,43 @@
+<div class="dashboard">
+  <!-- إحصائيات سريعة -->
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <div class="stat-icon">
+        <span class="material-icons">{{stat.icon}}</span>
+      </div>
+      <div class="stat-details">
+        <h3>{{stat.title}}</h3>
+        <div class="stat-value">{{stat.value}}</div>
+        <div class="stat-change">{{stat.change}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- القسم الرئيسي -->
+  <div class="main-section">
+    <!-- الطلبات الأخيرة -->
+    <div class="recent-orders">
+      <h2>الطلبات الأخيرة</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>رقم الطلب</th>
+            <th>العميل</th>
+            <th>التاريخ</th>
+            <th>الحالة</th>
+            <th>المبلغ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of recentOrders">
+            <td>{{order.id}}</td>
+            <td>{{order.customer}}</td>
+            <td>{{order.date}}</td>
+            <td><span [class]="getStatusClass(order.status)">{{order.statusText}}</span></td>
+            <td>{{order.amount}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div> 
