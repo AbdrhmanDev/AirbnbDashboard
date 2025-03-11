@@ -57,6 +57,7 @@ export class CreateHotelComponent implements OnInit {
     this.categoryService.getCategories().subscribe({
       next: (categories) => {
         this.categories = categories;
+        console.log(this.categories);
       },
       error: (error) => {
         console.error('Error loading categories:', error);
@@ -75,6 +76,7 @@ export class CreateHotelComponent implements OnInit {
       pricePerNight: ['', [Validators.required, Validators.min(0)]],
       rooms: ['', [Validators.required, Validators.min(1)]],
       bathrooms: ['', [Validators.required, Validators.min(1)]],
+      path: ['', [Validators.required, Validators.min(1)]],
       status: ['available', Validators.required],
       categoryId: ['', Validators.required],
       address: this.fb.group({
@@ -128,7 +130,7 @@ export class CreateHotelComponent implements OnInit {
         formData.append('images', file);
       });
 
-      this.hotelsService.createHotel(formData).subscribe({
+      this.hotelsService.createHotel(formValue).subscribe({
         next: (response) => {
           this.snackBar.open('Hotel created successfully!', 'Close', {
             duration: 3000,

@@ -79,6 +79,19 @@
                 {{ getErrorMessage("bathrooms") }}
               </mat-error>
             </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Pathrooms</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="path"
+                placeholder="Enter number of pathrooms"
+              />
+              <mat-error *ngIf="hotelForm.get('path')?.invalid">
+                {{ getErrorMessage("path") }}
+              </mat-error>
+            </mat-form-field>
           </div>
 
           <mat-form-field appearance="outline">

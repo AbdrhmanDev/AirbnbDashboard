@@ -20,7 +20,9 @@ export class CategoryService {
   }
   // Get all categories
   getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+    return this.http.get<Category[]>(this.apiUrl,{
+        headers: this.getAuthHeaders(),
+      });
   }
 
   // Get category by ID
