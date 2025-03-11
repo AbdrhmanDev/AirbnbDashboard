@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { HotelsComponent } from './components/hotels/hotels.component';
 import { LoginComponent } from './commponent/login/login.component';
 import { HotelDetialsComponent } from './components/hotels/hotel-detials/hotel-detials.component';
+import { CreateHotelComponent } from './components/hotels/create-hotel/create-hotel.component';
 
 export const routes: Routes = [
   {
@@ -17,10 +18,7 @@ export const routes: Routes = [
   },
   {
     path: 'add-hotel',
-    loadComponent: () =>
-      import('./pages/add-hotel/add-hotel.component').then(
-        (m) => m.AddHotelComponent
-      ),
+    component: CreateHotelComponent,
   },
   {
     path: 'analytics',
@@ -30,7 +28,8 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'products', component:HotelsComponent
+    path: 'products',
+    component: HotelsComponent,
   },
   {
     path: 'users',

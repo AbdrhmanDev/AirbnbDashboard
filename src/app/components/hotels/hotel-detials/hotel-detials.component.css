@@ -8,25 +8,290 @@
   padding: 5px 10px;
   border-radius: 5px;
 }
-.mat-mdc-card{
-    background-color: #fff !important;
+.mat-mdc-card {
+  background-color: #fff !important;
 }
 .hotel-images {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-container {
+  width: 100px; /* Adjust size as needed */
+  height: 100px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.hotel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hotel-card {
+  margin: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.hotel-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .hotel-layout {
+    grid-template-columns: 1.2fr 1fr;
   }
-  
-  .image-container {
-    width: 100px; /* Adjust size as needed */
-    height: 100px;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-  
-  .hotel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
+}
+
+/* Image Gallery Styles */
+.image-gallery {
+  width: 100%;
+}
+
+.main-image {
+  width: 100%;
+  height: 400px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.grid-image {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.grid-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.grid-image:hover img {
+  transform: scale(1.05);
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+}
+
+/* Hotel Content Styles */
+.hotel-content {
+  padding: 24px;
+}
+
+.hotel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.hotel-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2c3e50;
+}
+
+.hotel-rating {
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.star-icon {
+  color: #ffd700;
+  margin-right: 4px;
+}
+
+.location-badge {
+  display: flex;
+  align-items: center;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.location-badge mat-icon {
+  margin-right: 8px;
+  color: #e74c3c;
+}
+
+/* Stats Section */
+.hotel-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.stat-item mat-icon {
+  margin-right: 12px;
+  color: #3498db;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Status Badge Styles */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.status-available {
+  background-color: #e3fcef;
+  color: #00875a;
+}
+
+.status-booked {
+  background-color: #fff0e6;
+  color: #ff5722;
+}
+
+.status-unavailable {
+  background-color: #ffeaea;
+  color: #dc3545;
+}
+
+.status-maintenance {
+  background-color: #fff9e6;
+  color: #f59e0b;
+}
+
+/* Action Buttons */
+.action-buttons {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.action-button {
+  flex: 1;
+  padding: 12px 24px !important;
+}
+
+.action-button mat-icon {
+  margin-right: 8px;
+}
+
+/* Host Information */
+.host-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  margin: 16px 0;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.host-info:hover {
+  background-color: #f0f2f5;
+  transform: translateY(-2px);
+}
+
+.host-avatar {
+  position: relative;
+}
+
+.host-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.host-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background-color: #ff385c;
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.host-badge mat-icon {
+  color: white;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.host-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.host-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #222222;
+}
+
+.host-since {
+  font-size: 14px;
+  color: #717171;
+  margin-top: 4px;
+}

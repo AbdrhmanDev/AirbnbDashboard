@@ -35,6 +35,12 @@ export class HotelsService {
       headers: this.getAuthHeaders(),
     });
   }
+  createHotel(hotel: Hotel): Observable<Hotel> {
+    return this.http.post<Hotel>(this.apiUrl, hotel, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
 
   // Error handling
   private handleError(error: HttpErrorResponse) {

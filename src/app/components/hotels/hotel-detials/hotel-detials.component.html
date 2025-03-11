@@ -1,55 +1,105 @@
 <mat-card *ngIf="hotel" class="hotel-card">
-    <mat-card-header>
-      <mat-card-title>{{ hotel.title }}</mat-card-title>
-    </mat-card-header>
-  
-    <mat-card-content>
-      <!-- Owl Carousel -->
-      <div class="hotel-images">
-        <div class="image-container" *ngFor="let image of hotel.images">
-          <img [src]="image" class="hotel-image" alt="Hotel Image" />
+  <div class="hotel-layout">
+    <!-- Image Gallery Section -->
+    <div class="image-gallery">
+      <div class="main-image">
+        <img
+          [src]="hotel.images[0]"
+          alt="Main Hotel Image"
+          class="featured-image"
+        />
+      </div>
+      <div class="image-grid">
+        <div
+          class="grid-image"
+          *ngFor="let image of hotel.images.slice(1, 5); let i = index"
+        >
+          <img [src]="image" [alt]="'Hotel Image ' + (i + 2)" />
+          <div class="image-overlay" *ngIf="i === 3 && hotel.images.length > 5">
+            <span>+{{ hotel.images.length - 5 }} more</span>
+          </div>
         </div>
       </div>
-  
-      <div class="hotel-info">
-        <p>
-          <mat-icon>location_on</mat-icon>
-          <strong>Location:</strong> {{ hotel.address.city }}, {{ hotel.address.country }}
-        </p>
-        <p>
-          <mat-icon>attach_money</mat-icon>
-          <strong>Price per night:</strong> {{ hotel.pricePerNight }} USD
-        </p>
-        <p>
-          <mat-icon>star</mat-icon>
-          <strong>Rating:</strong> {{ hotel.rating }} / 5
-        </p>
-        <p>
-          <mat-icon>info</mat-icon>
-          <strong>Status:</strong>
-          <span [ngClass]="{
-            'status-available': hotel.status === 'available',
-            'status-booked': hotel.status === 'booked',
-            'status-unavailable': hotel.status === 'unavailable',
-            'status-maintenance': hotel.status === 'maintenance'
-          }">
-            {{ hotel.status | titlecase }}
-          </span>
-        </p>
-        <p>
-          <mat-icon>meeting_room</mat-icon>
-          <strong>Rooms:</strong> {{ hotel.rooms }}
-        </p>
+    </div>
+
+    <!-- Hotel Information Section -->
+    <div class="hotel-content">
+      <div class="hotel-header">
+        <h1 class="hotel-title">{{ hotel.title }}</h1>
+        <div class="hotel-rating">
+          <mat-icon class="star-icon">star</mat-icon>
+          <span>{{ hotel.rating }}/5</span>
+        </div>
       </div>
-    </mat-card-content>
-  
-    <mat-card-actions align="end">
-      <button mat-button color="warn">
-        <mat-icon>edit</mat-icon> Edit
-      </button>
-      <button mat-button color="primary">
-        <mat-icon>delete</mat-icon> Delete
-      </button>
-    </mat-card-actions>
-  </mat-card>
-  
+
+      <!-- Host Information -->
+      <div
+        class="host-info"
+        *ngIf="hotel.hostId"
+        (click)="onHostClick(hotel.hostId._id)"
+      >
+        <div class="host-avatar">
+          <img
+            [src]="hotel.hostId.profileImage"
+            [alt]="hotel.hostId.firstName"
+            class="host-image"
+          />
+          <div class="host-badge" *ngIf="hotel.hostId.hostDetails?.isSuperHost">
+            <mat-icon>verified</mat-icon>
+          </div>
+        </div>
+        <div class="host-details">
+          <span class="host-name"
+            >Hosted by {{ hotel.hostId.firstName }}
+            {{ hotel.hostId.lastName }}</span
+          >
+          <span class="host-since"
+            >Host since {{ hotel.hostId.createdAt | date : "mediumDate" }}</span
+          >
+        </div>
+      </div>
+
+      <div class="location-badge">
+        <mat-icon>location_on</mat-icon>
+        {{ hotel.address.city }}, {{ hotel.address.country }}
+      </div>
+
+      <div class="hotel-stats">
+        <div class="stat-item">
+          <mat-icon>attach_money</mat-icon>
+          <div class="stat-content">
+            <span class="stat-label">Price per night</span>
+            <span class="stat-value">${{ hotel.pricePerNight }}</span>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <mat-icon>meeting_room</mat-icon>
+          <div class="stat-content">
+            <span class="stat-label">Rooms</span>
+            <span class="stat-value">{{ hotel.rooms }}</span>
+          </div>
+        </div>
+
+        <div class="stat-item">
+          <mat-icon>event_available</mat-icon>
+          <div class="stat-content">
+            <span class="stat-label">Status</span>
+            <span class="status-badge" [ngClass]="'status-' + hotel.status">
+              {{ hotel.status | titlecase }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" class="action-button">
+          <mat-icon>edit</mat-icon> Edit Details
+        </button>
+        <button mat-raised-button color="warn" class="action-button">
+          <mat-icon>delete</mat-icon> Delete Hotel
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-card>

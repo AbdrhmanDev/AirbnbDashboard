@@ -1,0 +1,183 @@
+<div class="create-hotel-container">
+  <mat-card class="form-card">
+    <mat-card-header>
+      <mat-card-title>Create New Hotel</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()">
+        <!-- Basic Information -->
+        <div class="form-section">
+          <h3>Basic Information</h3>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hotel Name</mat-label>
+            <input
+              matInput
+              formControlName="title"
+              placeholder="Enter hotel name"
+            />
+            <mat-error *ngIf="hotelForm.get('title')?.invalid">
+              {{ getErrorMessage("title") }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="4"
+              placeholder="Enter hotel description"
+            ></textarea>
+            <mat-error *ngIf="hotelForm.get('description')?.invalid">
+              {{ getErrorMessage("description") }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- Details -->
+        <div class="form-section">
+          <h3>Details</h3>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Price per Night</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="pricePerNight"
+                placeholder="Enter price"
+              />
+              <mat-error *ngIf="hotelForm.get('pricePerNight')?.invalid">
+                {{ getErrorMessage("pricePerNight") }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Number of Rooms</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="rooms"
+                placeholder="Enter number of rooms"
+              />
+              <mat-error *ngIf="hotelForm.get('rooms')?.invalid">
+                {{ getErrorMessage("rooms") }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Number of Bathrooms</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="bathrooms"
+                placeholder="Enter number of bathrooms"
+              />
+              <mat-error *ngIf="hotelForm.get('bathrooms')?.invalid">
+                {{ getErrorMessage("bathrooms") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status">
+              <mat-option value="available">Available</mat-option>
+              <mat-option value="booked">Booked</mat-option>
+              <mat-option value="maintenance">Maintenance</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Address -->
+        <div class="form-section" formGroupName="address">
+          <h3>Location</h3>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Country</mat-label>
+              <input
+                matInput
+                formControlName="country"
+                placeholder="Enter country"
+              />
+              <mat-error *ngIf="hotelForm.get('address.country')?.invalid">
+                {{ getErrorMessage("address.country") }}
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>City</mat-label>
+              <input matInput formControlName="city" placeholder="Enter city" />
+              <mat-error *ngIf="hotelForm.get('address.city')?.invalid">
+                {{ getErrorMessage("address.city") }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- Images -->
+        <div class="form-section">
+          <h3>Images</h3>
+
+          <div class="image-upload-container">
+            <div class="image-upload">
+              <input
+                type="file"
+                #fileInput
+                hidden
+                multiple
+                accept="image/*"
+                (change)="onImageSelect($event)"
+              />
+              <button
+                type="button"
+                mat-stroked-button
+                color="primary"
+                (click)="fileInput.click()"
+              >
+                <mat-icon>add_photo_alternate</mat-icon>
+                Add Images
+              </button>
+            </div>
+
+            <div class="image-previews" *ngIf="previewUrls.length > 0">
+              <div
+                class="image-preview"
+                *ngFor="let url of previewUrls; let i = index"
+              >
+                <img [src]="url" [alt]="'Preview ' + i" />
+                <button
+                  type="button"
+                  mat-icon-button
+                  color="warn"
+                  class="remove-image"
+                  (click)="removeImage(i)"
+                >
+                  <mat-icon>close</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="button" mat-stroked-button routerLink="/hotels">
+            Cancel
+          </button>
+          <button
+            type="submit"
+            mat-raised-button
+            color="primary"
+            [disabled]="hotelForm.invalid || imageFiles.length === 0"
+          >
+            Create Hotel
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

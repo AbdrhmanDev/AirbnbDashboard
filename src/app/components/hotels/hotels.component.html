@@ -1,39 +1,116 @@
-<div class="container">
-    <!-- Loading State -->
-    <div class="loading-container" *ngIf="isLoading">
-      <div class="spinner"></div>
+<div class="admin-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-title">
+      <h1>Hotel Management</h1>
+      <p>{{ (hotels$ | async)?.length || 0 }} hotels listed</p>
     </div>
-  
-    <!-- Error Message -->
-    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
-  
-    <!-- Hotel Table -->
-    <table class="hotel-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Price/Night</th>
-          <th>Rating</th>
-          <th>Location</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let hotel of hotels$ | async">
-          <td>{{ hotel.title }}</td>
-          <td>{{ hotel.description }}</td>
-          <td>${{ hotel.pricePerNight }}</td>
-          <td>{{ hotel.rating }}</td>
-          <td>{{ hotel.address.city }}, {{ hotel.address.country }}</td>
-          <td>
-            <div class="actions">
-              <button class="update" (click)="onUpdate(hotel._id)">Update</button>
-              <button class="delete" (click)="onDelete(hotel._id)">Delete</button>
-              <button class="details" (click)="onDetails(hotel._id)">Details</button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <button class="add-hotel-btn" routerLink="/add-hotel" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>
+      Add New Hotel
+    </button>
   </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search hotels</mat-label>
+      <input
+        matInput
+        placeholder="Search by name, location..."
+        (input)="onSearch($event)"
+        [(ngModel)]="searchQuery"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="filter-buttons">
+      <mat-button-toggle-group
+        [(ngModel)]="selectedStatus"
+        (change)="onFilterChange($event.value)"
+      >
+        <mat-button-toggle value="all">All</mat-button-toggle>
+        <mat-button-toggle value="available">Available</mat-button-toggle>
+        <mat-button-toggle value="booked">Booked</mat-button-toggle>
+        <mat-button-toggle value="maintenance">Maintenance</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <!-- Error Message -->
+  <div class="error-message" *ngIf="errorMessage">
+    <mat-icon>error_outline</mat-icon>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Hotels Grid -->
+  <div class="admin-grid" *ngIf="!isLoading">
+    <mat-card class="hotel-card" *ngFor="let hotel of hotels$ | async">
+      <div class="hotel-card-header">
+        <img
+          [src]="getFirstImageUrl(hotel.images)"
+          [alt]="hotel.title"
+          class="hotel-thumbnail"
+        />
+        <div class="header-content">
+          <h3>{{ hotel.title }}</h3>
+          <div class="hotel-meta">
+            <span class="location">
+              <mat-icon>location_on</mat-icon>
+              {{ hotel.address.city }}, {{ hotel.address.country }}
+            </span>
+            <span class="status" [ngClass]="'status-' + hotel.status">
+              {{ hotel.status | titlecase }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <mat-card-content>
+        <div class="hotel-stats">
+          <div class="stat-item">
+            <span class="label">Price/Night</span>
+            <span class="value">${{ hotel.pricePerNight }}</span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Rating</span>
+            <span class="value">
+              <mat-icon class="star-icon">star</mat-icon>
+              {{ hotel.rating }}/5
+            </span>
+          </div>
+          <div class="stat-item">
+            <span class="label">Rooms</span>
+            <span class="value">{{ hotel.rooms }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-button color="primary" (click)="onDetails(hotel._id)">
+          <mat-icon>visibility</mat-icon>
+          View
+        </button>
+        <button mat-button color="accent" (click)="onUpdate(hotel._id)">
+          <mat-icon>edit</mat-icon>
+          Edit
+        </button>
+        <button mat-button color="warn" (click)="onDelete(hotel)">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <!-- No Results Message -->
+  <div class="no-results" *ngIf="(hotels$ | async)?.length === 0 && !isLoading">
+    <mat-icon>search_off</mat-icon>
+    <p>No hotels found matching your criteria</p>
+  </div>
+</div>

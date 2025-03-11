@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Hotel } from '../../../models/hotel';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { HotelsService } from '../../../services/hotels.service';
@@ -11,31 +11,28 @@ import { TagModule } from 'primeng/tag';
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
-
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
-
-
 
 @Component({
   selector: 'app-hotel-detials',
-  imports: [      CommonModule,
+  standalone: true,
+  imports: [
+    CommonModule,
     RouterModule,
     HttpClientModule,
     CardModule,
     GalleriaModule,
     ButtonModule,
     TagModule,
-    
-    MatCardModule, MatButtonModule, MatIconModule,CarouselModule
-
-    
-
-    ],
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule,
+    CarouselModule,
+  ],
   templateUrl: './hotel-detials.component.html',
-  styleUrl: './hotel-detials.component.css',
+  styleUrls: ['./hotel-detials.component.css'],
 })
-export class HotelDetialsComponent {
+export class HotelDetialsComponent implements OnInit {
   hotel!: Hotel;
   errorMessage!: string;
   isLoading = true;
@@ -50,8 +47,8 @@ export class HotelDetialsComponent {
     responsive: {
       0: { items: 1 },
       600: { items: 2 },
-      1000: { items: 3 }
-    }
+      1000: { items: 3 },
+    },
   };
 
   constructor(
@@ -59,6 +56,7 @@ export class HotelDetialsComponent {
     private hotelsService: HotelsService,
     private router: Router
   ) {}
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -75,6 +73,7 @@ export class HotelDetialsComponent {
       });
     }
   }
+
   onDelete(id: string): void {
     console.log('Delete hotel with ID:', id);
     this.hotelsService.deleteHotel(id).subscribe({
@@ -89,5 +88,8 @@ export class HotelDetialsComponent {
   onDetails(id: string): void {
     this.router.navigate(['/hotels', id]); // Navigate to details component
   }
-  
+
+  onHostClick(hostId: string): void {
+    this.router.navigate(['/hosts', hostId]);
+  }
 }
