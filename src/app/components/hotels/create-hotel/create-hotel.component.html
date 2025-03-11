@@ -89,6 +89,21 @@
               <mat-option value="maintenance">Maintenance</mat-option>
             </mat-select>
           </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="categoryId" required>
+              <mat-option
+                *ngFor="let category of categories"
+                [value]="category._id"
+              >
+                {{ category.name }}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="hotelForm.get('categoryId')?.invalid">
+              {{ getErrorMessage("categoryId") }}
+            </mat-error>
+          </mat-form-field>
         </div>
 
         <!-- Address -->
