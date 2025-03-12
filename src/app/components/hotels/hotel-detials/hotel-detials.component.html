@@ -93,10 +93,20 @@
       </div>
 
       <div class="action-buttons">
-        <button mat-raised-button color="primary" class="action-button">
+        <button
+          mat-raised-button
+          color="primary"
+          class="action-button"
+          (click)="onEdit()"
+        >
           <mat-icon>edit</mat-icon> Edit Details
         </button>
-        <button mat-raised-button color="warn" class="action-button">
+        <button
+          mat-raised-button
+          color="warn"
+          class="action-button"
+          (click)="onDelete(hotel._id)"
+        >
           <mat-icon>delete</mat-icon> Delete Hotel
         </button>
       </div>

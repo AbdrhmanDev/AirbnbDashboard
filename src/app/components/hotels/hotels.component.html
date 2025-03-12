@@ -5,7 +5,12 @@
       <h1>Hotel Management</h1>
       <p>{{ (hotels$ | async)?.length || 0 }} hotels listed</p>
     </div>
-    <button class="add-hotel-btn" routerLink="/add-hotel" mat-raised-button color="primary">
+    <button
+      class="add-hotel-btn"
+      routerLink="/add-hotel"
+      mat-raised-button
+      color="primary"
+    >
       <mat-icon>add</mat-icon>
       Add New Hotel
     </button>

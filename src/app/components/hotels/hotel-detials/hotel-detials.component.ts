@@ -92,4 +92,12 @@ export class HotelDetialsComponent implements OnInit {
   onHostClick(hostId: string): void {
     this.router.navigate(['/hosts', hostId]);
   }
+
+  onEdit(): void {
+    console.log('Hotel ID:', this.hotel._id);
+    if (this.hotel) {
+      console.log('Hotel ID:', this.hotel._id);
+      this.router.navigate(['/hotels/edit', this.hotel._id]);
+    }
+  }
 }

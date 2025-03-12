@@ -40,6 +40,12 @@ export class HotelsService {
       headers: this.getAuthHeaders(),
     });
   }
+  updateHotel(id: string, hotel: Hotel): Observable<Hotel> {
+    const url = `${this.apiUrl}/${id}`; // Construct the URL for the specific hotel
+    return this.http
+      .put<Hotel>(url, hotel, { headers: this.getAuthHeaders() })
+      .pipe(catchError(this.handleError));
+  }
 
 
   // Error handling

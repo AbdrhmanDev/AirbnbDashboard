@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Hotel } from '../../models/hotel';
 import { HotelsService } from '../../services/hotels.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,6 @@ import {
 } from 'rxjs';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatError } from '@angular/material/form-field';
-import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DeleteConfirmationComponent } from './delete-confirmation/delete-confirmation.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -133,8 +132,7 @@ export class HotelsComponent implements OnInit {
   }
 
   onUpdate(id: string): void {
-    console.log('Update hotel with ID:', id);
-    // Navigate to update form or open modal
+    this.router.navigate(['/hotels/edit', id]);
   }
 
   onDelete(hotel: Hotel): void {

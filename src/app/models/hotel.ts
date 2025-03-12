@@ -12,8 +12,9 @@ export interface Hotel {
   status: string;
   rooms: number;
   bathrooms: number;
-  categories: Category;
+  categoryId: Category;
   address: Address;
+  path: string;
   
   hostId?: Host; // Optional field in case host details are populated
   createdAt: string;

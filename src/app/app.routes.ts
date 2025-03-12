@@ -4,6 +4,7 @@ import { HotelsComponent } from './components/hotels/hotels.component';
 import { LoginComponent } from './commponent/login/login.component';
 import { HotelDetialsComponent } from './components/hotels/hotel-detials/hotel-detials.component';
 import { CreateHotelComponent } from './components/hotels/create-hotel/create-hotel.component';
+import { UpdateHotelComponent } from './components/hotels/update-hotel/update-hotel.component';
 
 export const routes: Routes = [
   {
@@ -19,6 +20,10 @@ export const routes: Routes = [
   {
     path: 'add-hotel',
     component: CreateHotelComponent,
+  },
+  {
+    path: 'hotels/edit/:id',
+    component: UpdateHotelComponent
   },
   {
     path: 'analytics',
