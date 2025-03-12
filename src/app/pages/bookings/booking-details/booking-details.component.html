@@ -1,0 +1,206 @@
+<div class="page-container">
+  <!-- Loading State -->
+  <div class="loading-spinner" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading booking details...</p>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-message" *ngIf="error">
+    <mat-icon color="warn">error</mat-icon>
+    <p>{{ error }}</p>
+    <button mat-stroked-button color="primary" routerLink="/bookings">
+      Back to Bookings
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="content" *ngIf="!isLoading && !error && booking && property">
+    <!-- Header -->
+    <div class="header">
+      <div class="header-content">
+        <h1>Booking Details</h1>
+        <div class="booking-id">
+          <span class="label">Booking ID:</span>
+          <span class="value">{{ booking._id }}</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button mat-stroked-button color="primary" routerLink="/bookings">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Bookings
+        </button>
+      </div>
+    </div>
+
+    <!-- Booking Status Card -->
+    <mat-card class="status-card">
+      <mat-card-content>
+        <div class="status-container">
+          <div class="status-item">
+            <span class="label">Booking Status</span>
+            <span
+              class="status-chip"
+              [ngClass]="getStatusClass(booking.status)"
+            >
+              {{ booking.status | titlecase }}
+            </span>
+          </div>
+          <mat-divider vertical></mat-divider>
+          <div class="status-item">
+            <span class="label">Payment Status</span>
+            <span
+              class="status-chip"
+              [ngClass]="getPaymentStatusClass(booking.paymentStatus)"
+            >
+              {{ booking.paymentStatus | titlecase }}
+            </span>
+          </div>
+          <mat-divider vertical></mat-divider>
+          <div class="status-item">
+            <span class="label">Total Price</span>
+            <span class="price">${{ booking.totalPrice }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <div class="details-grid">
+      <!-- Property Details Card -->
+      <mat-card class="property-card">
+        <mat-card-header>
+          <mat-card-title>Property Details</mat-card-title>
+        </mat-card-header>
+        <img mat-card-image [src]="property.images[0]" class="property-image" />
+        <mat-card-content>
+          <h2>{{ property.hostId?.firstName }} {{ property.hostId?.lastName }}</h2>
+          <p class="location">
+            <mat-icon>location_on</mat-icon>
+            {{ property.address.city }}, {{ property.address.country }}
+          </p>
+          <mat-divider></mat-divider>
+          <div class="property-features">
+            <div class="feature">
+              <mat-icon>hotel</mat-icon>
+              <span>{{ property.rooms }} Rooms</span>
+            </div>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button
+            mat-button
+            color="primary"
+            [routerLink]="['/hotels', property._id]"
+          >
+            View Property
+          </button>
+        </mat-card-actions>
+      </mat-card>
+
+      <!-- Booking Details Card -->
+      <mat-card class="booking-details-card">
+        <mat-card-header>
+          <mat-card-title>Booking Information</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-grid">
+            <div class="info-item">
+              <span class="label">Check-in</span>
+              <span class="value">{{ formatDate(booking.startDate) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Check-out</span>
+              <span class="value">{{ formatDate(booking.endDate) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Duration</span>
+              <span class="value">{{ calculateNights() }} nights</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Guests</span>
+              <span class="value">{{ booking.companions }} people</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Pets Allowed</span>
+              <span class="value">{{
+                booking.petsAllowed ? "Yes" : "No"
+              }}</span>
+            </div>
+          </div>
+
+          <mat-divider class="section-divider"></mat-divider>
+
+          <!-- Guest Information -->
+          <div
+            class="guest-info"
+            *ngIf="booking.userId && typeof booking.userId !== 'string'"
+          >
+            <h3>Guest Information</h3>
+            <div class="user-details">
+              <img
+                [src]="getUserProfileImage(booking.userId)"
+                alt="Guest profile"
+                class="user-avatar"
+              />
+              <div class="user-info">
+                <p class="name">{{ getUserFullName(booking.userId) }}</p>
+                <p class="email">{{ getUserEmail(booking.userId) }}</p>
+                <p class="phone">{{ getUserPhone(booking.userId) }}</p>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  [routerLink]="['/users', getUserId(booking.userId)]"
+                >
+                  <mat-icon>person</mat-icon>
+                  View Guest Profile
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <mat-divider class="section-divider"></mat-divider>
+
+          <!-- Host Information -->
+          <div
+            class="host-info"
+            *ngIf="booking.hostId && typeof booking.hostId !== 'string'"
+          >
+            <h3>Host Information</h3>
+            <div class="user-details">
+              <img
+                [src]="getUserProfileImage(booking.hostId)"
+                alt="Host profile"
+                class="user-avatar"
+              />
+              <div class="user-info">
+                <p class="name">{{ getUserFullName(booking.hostId) }}</p>
+                <p class="email">{{ getUserEmail(booking.hostId) }}</p>
+                <p class="phone">{{ getUserPhone(booking.hostId) }}</p>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  [routerLink]="['/users', getUserId(booking.hostId)]"
+                >
+                  <mat-icon>person</mat-icon>
+                  View Host Profile
+                </button>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons" *ngIf="booking.status === 'pending'">
+      <button mat-raised-button color="primary" (click)="confirmBooking()">
+        <mat-icon>check_circle</mat-icon>
+        Confirm Booking
+      </button>
+      <button mat-raised-button color="warn" (click)="cancelBooking()">
+        <mat-icon>cancel</mat-icon>
+        Cancel Booking
+      </button>
+    </div>
+  </div>
+</div>

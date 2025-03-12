@@ -1,0 +1,213 @@
+<div class="page-container">
+  <div class="header">
+    <h1>Bookings</h1>
+    <p class="subtitle">Manage and track all bookings</p>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        (keyup)="applyFilter()"
+        placeholder="Search by property or booking ID"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Booking Status</mat-label>
+      <mat-select
+        [(ngModel)]="selectedStatus"
+        (selectionChange)="applyFilter()"
+      >
+        <mat-option value="all">All</mat-option>
+        <mat-option *ngFor="let status of bookingStatuses" [value]="status">
+          {{ status | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Payment Status</mat-label>
+      <mat-select
+        [(ngModel)]="selectedPaymentStatus"
+        (selectionChange)="applyFilter()"
+      >
+        <mat-option value="all">All</mat-option>
+        <mat-option *ngFor="let status of paymentStatuses" [value]="status">
+          {{ status | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Start Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="startPicker"
+        [(ngModel)]="startDate"
+        (dateChange)="applyFilter()"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="startPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #startPicker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>End Date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="endPicker"
+        [(ngModel)]="endDate"
+        (dateChange)="applyFilter()"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="endPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #endPicker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-stroked-button color="primary" (click)="resetFilters()">
+      <mat-icon>clear</mat-icon>
+      Reset Filters
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-spinner" *ngIf="isLoading">
+  </div>
+
+  <!-- Data Table -->
+  <div class="table-container" *ngIf="!isLoading">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <!-- Property ID Column -->
+      <ng-container matColumnDef="propertyId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Booking ID</th>
+        <td mat-cell *matCellDef="let booking">{{ booking._id }}</td>
+      </ng-container>
+
+      <!-- Companions Column -->
+      <ng-container matColumnDef="companions">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Companions</th>
+        <td mat-cell *matCellDef="let booking">{{ booking.companions }}</td>
+      </ng-container>
+
+      <!-- Start Date Column -->
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+        <td mat-cell *matCellDef="let booking">
+          {{ formatDate(booking.startDate) }}
+        </td>
+      </ng-container>
+
+      <!-- End Date Column -->
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+        <td mat-cell *matCellDef="let booking">
+          {{ formatDate(booking.endDate) }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+        <td mat-cell *matCellDef="let booking">
+          <span class="status-chip" [ngClass]="getStatusClass(booking.status)">
+            {{ booking.status | titlecase }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Payment Status Column -->
+      <ng-container matColumnDef="paymentStatus">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Payment Status
+        </th>
+        <td mat-cell *matCellDef="let booking">
+          <span
+            class="status-chip"
+            [ngClass]="getPaymentStatusClass(booking.paymentStatus)"
+          >
+            {{ booking.paymentStatus | titlecase }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Total Price Column -->
+      <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Price</th>
+        <td mat-cell *matCellDef="let booking">${{ booking.totalPrice }}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let booking">
+          <button
+            mat-icon-button
+            color="primary"
+            [routerLink]="['/bookings', booking._id]"
+            matTooltip="View Details"
+
+            (click)="viewBooking(booking._id!)"
+          >
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="accent"
+            *ngIf="booking.status === 'pending'"
+            (click)="confirmBooking(booking._id!)"
+            matTooltip="Confirm Booking"
+          >
+            <mat-icon>check_circle</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="warn"
+            *ngIf="
+              booking.status !== 'cancelled' && booking.status !== 'completed'
+            "
+            (click)="cancelBooking(booking._id!)"
+            matTooltip="Cancel Booking"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="deleteBooking(booking._id!)"
+            matTooltip="Delete Booking"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      showFirstLastButtons
+      aria-label="Select page of bookings"
+    >
+    </mat-paginator>
+  </div>
+
+  <!-- No Data Message -->
+  <div class="no-data" *ngIf="!isLoading && dataSource.data.length === 0">
+    <mat-icon>event_busy</mat-icon>
+    <p>No bookings found</p>
+  </div>
+</div>

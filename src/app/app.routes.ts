@@ -6,6 +6,7 @@ import { HotelDetialsComponent } from './components/hotels/hotel-detials/hotel-d
 import { CreateHotelComponent } from './components/hotels/create-hotel/create-hotel.component';
 import { UpdateHotelComponent } from './components/hotels/update-hotel/update-hotel.component';
 import { UserCreateComponent } from './pages/users/user-create/user-create.component';
+import { BookingDetailsComponent } from './pages/bookings/booking-details/booking-details.component';
 
 export const routes: Routes = [
   {
@@ -23,7 +24,7 @@ export const routes: Routes = [
     component: CreateHotelComponent,
   },
   {
-    path: 'hotels/:id',
+    path: 'hotels/edit/:id',
     component: UpdateHotelComponent,
   },
   {
@@ -32,6 +33,17 @@ export const routes: Routes = [
       import('./pages/analytics/analytics.component').then(
         (m) => m.AnalyticsComponent
       ),
+  },
+  {
+    path: 'bookings',
+    loadComponent: () =>
+      import('./pages/bookings/bookings.component').then(
+        (m) => m.BookingsComponent
+      ),
+  },
+  {
+    path: 'bookings/details/:id',
+    component: BookingDetailsComponent,
   },
   {
     path: 'products',

@@ -40,7 +40,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatChipsModule,
-    MatError,
+   
     FormsModule,
     MatDialogModule,
   ],
@@ -132,7 +132,7 @@ export class HotelsComponent implements OnInit {
   }
 
   onUpdate(id: string): void {
-    this.router.navigate(['/hotels/', id]);
+    this.router.navigate(['/hotels/edit', id]);
   }
 
   onDelete(hotel: Hotel): void {
