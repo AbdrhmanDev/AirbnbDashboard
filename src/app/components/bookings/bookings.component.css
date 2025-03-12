@@ -1,0 +1,84 @@
+.bookings-container {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  height: 100%;
+}
+
+.bookings-header {
+  margin-bottom: 20px;
+}
+
+.bookings-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3f51b5;
+}
+
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+mat-card {
+  border-right: 4px solid;
+  transition: all 0.3s ease;
+}
+
+mat-card:hover {
+  transform: translateX(-5px);
+}
+
+mat-card.pending {
+  border-right-color: #ffc107;
+}
+
+mat-card.confirmed {
+  border-right-color: #4caf50;
+}
+
+mat-card.cancelled {
+  border-right-color: #f44336;
+}
+
+.booking-info {
+  display: grid;
+  gap: 8px;
+}
+
+.booking-info p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.price {
+  font-weight: 500;
+  color: #3f51b5;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(63, 81, 181, 0.5);
+  border-radius: 3px;
+}

@@ -1,0 +1,73 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon class="header-icon">person</mat-icon>
+        User Details
+      </h1>
+      <p class="subtitle">View user information</p>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div *ngIf="isLoading" class="loading-spinner">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <mat-card *ngIf="!isLoading && user" class="user-card mat-elevation-z2">
+      <div class="user-header">
+        <div class="profile-image-container">
+          <img
+            [src]="user.profileImage || 'assets/images/default-avatar.png'"
+            [alt]="user.firstName + ' ' + user.lastName"
+            class="profile-image"
+          />
+        </div>
+        <div class="user-title">
+          <h2>{{ user.firstName }} {{ user.lastName }}</h2>
+          <span class="role-badge" [class]="user.role.toLowerCase()">{{
+            user.role
+          }}</span>
+        </div>
+      </div>
+
+      <mat-card-content>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Email</span>
+            <span class="value">{{ user.email }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Phone</span>
+            <span class="value">{{ user.phone || "Not provided" }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Created At</span>
+            <span class="value">{{ user.createdAt | date : "medium" }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Last Updated</span>
+            <span class="value">{{ user.updatedAt | date : "medium" }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-stroked-button (click)="onBack()">
+          <mat-icon>arrow_back</mat-icon>
+          Back to Users
+        </button>
+        <button mat-raised-button color="primary" (click)="onEdit()">
+          <mat-icon>edit</mat-icon>
+          Edit User
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <div *ngIf="!isLoading && error" class="error-message">
+      <mat-icon>error</mat-icon>
+      <p>{{ error }}</p>
+      <button mat-stroked-button (click)="onBack()">Back to Users</button>
+    </div>
+  </div>
+</div>

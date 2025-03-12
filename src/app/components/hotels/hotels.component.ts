@@ -132,7 +132,7 @@ export class HotelsComponent implements OnInit {
   }
 
   onUpdate(id: string): void {
-    this.router.navigate(['/hotels/edit', id]);
+    this.router.navigate(['/hotels/', id]);
   }
 
   onDelete(hotel: Hotel): void {

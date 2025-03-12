@@ -5,6 +5,7 @@ import { LoginComponent } from './commponent/login/login.component';
 import { HotelDetialsComponent } from './components/hotels/hotel-detials/hotel-detials.component';
 import { CreateHotelComponent } from './components/hotels/create-hotel/create-hotel.component';
 import { UpdateHotelComponent } from './components/hotels/update-hotel/update-hotel.component';
+import { UserCreateComponent } from './pages/users/user-create/user-create.component';
 
 export const routes: Routes = [
   {
@@ -22,8 +23,8 @@ export const routes: Routes = [
     component: CreateHotelComponent,
   },
   {
-    path: 'hotels/edit/:id',
-    component: UpdateHotelComponent
+    path: 'hotels/:id',
+    component: UpdateHotelComponent,
   },
   {
     path: 'analytics',
@@ -40,6 +41,24 @@ export const routes: Routes = [
     path: 'users',
     loadComponent: () =>
       import('./pages/users/users.component').then((m) => m.UsersComponent),
+  },
+  {
+    path: 'create-users',
+    component: UserCreateComponent,
+  },
+  {
+    path: 'users/edit/:id',
+    loadComponent: () =>
+      import('./pages/users/user-edit/user-edit.component').then(
+        (m) => m.UserEditComponent
+      ),
+  },
+  {
+    path: 'users/:id',
+    loadComponent: () =>
+      import('./pages/users/user-details/user-details.component').then(
+        (m) => m.UserDetailsComponent
+      ),
   },
   {
     path: 'subscribers',
@@ -62,13 +81,7 @@ export const routes: Routes = [
         (m) => m.SettingsComponent
       ),
   },
-  {
-    path: 'bookings',
-    loadComponent: () =>
-      import('./pages/bookings-page/bookings-page.component').then(
-        (m) => m.BookingsPageComponent
-      ),
-  },
+
   {
     path: 'login',
     component: LoginComponent,

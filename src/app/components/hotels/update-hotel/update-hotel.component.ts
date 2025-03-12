@@ -31,7 +31,7 @@ import { Category } from '../../../models/category';
     MatButtonModule,
     MatIconModule,
   ],
-  templateUrl: './update-hotel.component.css',
+  templateUrl: './update-hotel.component.html',
   styleUrls: ['./update-hotel.component.css'],
 })
 export class UpdateHotelComponent implements OnInit {

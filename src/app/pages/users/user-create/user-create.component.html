@@ -1,0 +1,198 @@
+<div class="page-container">
+  <div class="page-header">
+    <div class="header-content">
+      <h1>
+        <mat-icon class="header-icon">person_add</mat-icon>
+        Create New User
+      </h1>
+      <p class="subtitle">Add a new user to the system</p>
+    </div>
+  </div>
+
+  <div class="form-container mat-elevation-z2">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input
+            matInput
+            formControlName="firstName"
+            placeholder="Enter first name"
+          />
+          <mat-error *ngIf="userForm.get('firstName')?.invalid">
+            {{ getErrorMessage("firstName") }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input
+            matInput
+            formControlName="lastName"
+            placeholder="Enter last name"
+          />
+          <mat-error *ngIf="userForm.get('lastName')?.invalid">
+            {{ getErrorMessage("lastName") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            formControlName="email"
+            placeholder="Enter email"
+            type="email"
+          />
+          <mat-error *ngIf="userForm.get('email')?.invalid">
+            {{ getErrorMessage("email") }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input
+            matInput
+            formControlName="phone"
+            placeholder="Enter phone number"
+          />
+          <mat-error *ngIf="userForm.get('phone')?.invalid">
+            {{ getErrorMessage("phone") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Date of Birth</mat-label>
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="dateOfBirth"
+            [max]="maxDate"
+            placeholder="Choose a date"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="userForm.get('dateOfBirth')?.invalid">
+            {{ getErrorMessage("dateOfBirth") }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="Male">Male</mat-option>
+            <mat-option value="Female">Female</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div formGroupName="address" class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Country</mat-label>
+          <input
+            matInput
+            formControlName="country"
+            placeholder="Enter country"
+          />
+          <mat-error *ngIf="userForm.get('address.country')?.invalid">
+            Country is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>City</mat-label>
+          <input matInput formControlName="city" placeholder="Enter city" />
+          <mat-error *ngIf="userForm.get('address.city')?.invalid">
+            City is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option value="Guest">Guest</mat-option>
+            <mat-option value="Host">Host</mat-option>
+            <mat-option value="Admin">Admin</mat-option>
+          </mat-select>
+          <mat-error *ngIf="userForm.get('role')?.invalid">
+            {{ getErrorMessage("role") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            type="password"
+            placeholder="Enter password"
+          />
+          <mat-error *ngIf="userForm.get('password')?.invalid">
+            {{ getErrorMessage("password") }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input
+            matInput
+            formControlName="confirmPassword"
+            type="password"
+            placeholder="Confirm password"
+          />
+          <mat-error *ngIf="userForm.get('confirmPassword')?.invalid">
+            {{ getErrorMessage("confirmPassword") }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <div class="file-upload">
+          <div class="image-preview" *ngIf="imagePreview">
+            <img
+              [src]="imagePreview"
+              alt="Profile preview"
+              class="preview-image"
+            />
+          </div>
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            style="display: none"
+          />
+          <button type="button" mat-stroked-button (click)="fileInput.click()">
+            <mat-icon>cloud_upload</mat-icon>
+            {{ selectedFile ? selectedFile.name : "Upload Profile Image" }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" mat-stroked-button routerLink="/users">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          mat-raised-button
+          color="primary"
+          [disabled]="userForm.invalid || isSubmitting"
+        >
+          Create User
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
