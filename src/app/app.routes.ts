@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { HotelsComponent } from './components/hotels/hotels.component';
 import { LoginComponent } from './commponent/login/login.component';
 import { HotelDetialsComponent } from './components/hotels/hotel-detials/hotel-detials.component';
@@ -7,6 +6,7 @@ import { CreateHotelComponent } from './components/hotels/create-hotel/create-ho
 import { UpdateHotelComponent } from './components/hotels/update-hotel/update-hotel.component';
 import { UserCreateComponent } from './pages/users/user-create/user-create.component';
 import { BookingDetailsComponent } from './pages/bookings/booking-details/booking-details.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -18,14 +18,17 @@ export const routes: Routes = [
     path: 'home',
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'add-hotel',
     component: CreateHotelComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'hotels/edit/:id',
     component: UpdateHotelComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'analytics',
@@ -33,6 +36,7 @@ export const routes: Routes = [
       import('./pages/analytics/analytics.component').then(
         (m) => m.AnalyticsComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'bookings',
@@ -40,10 +44,12 @@ export const routes: Routes = [
       import('./pages/bookings/bookings.component').then(
         (m) => m.BookingsComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'bookings/details/:id',
     component: BookingDetailsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'payments',
@@ -51,19 +57,23 @@ export const routes: Routes = [
       import('./pages/payments/payments.component').then(
         (m) => m.PaymentsComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'products',
     component: HotelsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'users',
     loadComponent: () =>
       import('./pages/users/users.component').then((m) => m.UsersComponent),
+    canActivate: [AuthGuard],
   },
   {
     path: 'create-users',
     component: UserCreateComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'users/edit/:id',
@@ -71,6 +81,7 @@ export const routes: Routes = [
       import('./pages/users/user-edit/user-edit.component').then(
         (m) => m.UserEditComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'users/:id',
@@ -78,6 +89,7 @@ export const routes: Routes = [
       import('./pages/users/user-details/user-details.component').then(
         (m) => m.UserDetailsComponent
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'subscribers',
@@ -85,13 +97,7 @@ export const routes: Routes = [
       import('./pages/subscribers/subscribers.component').then(
         (m) => m.SubscribersComponent
       ),
-  },
-  {
-    path: 'payments',
-    loadComponent: () =>
-      import('./pages/payments/payments.component').then(
-        (m) => m.PaymentsComponent
-      ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'settings',
@@ -99,8 +105,8 @@ export const routes: Routes = [
       import('./pages/settings/settings.component').then(
         (m) => m.SettingsComponent
       ),
+    canActivate: [AuthGuard],
   },
-
   {
     path: 'login',
     component: LoginComponent,
@@ -108,10 +114,12 @@ export const routes: Routes = [
   {
     path: 'hotels',
     component: HotelsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'hotels/:id',
     component: HotelDetialsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

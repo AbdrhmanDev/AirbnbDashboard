@@ -21,6 +21,7 @@ export interface TranslationKeys {
   noNotifications: string;
   profile: string;
   logout: string;
+  signIn: string;
 
   // الإحصائيات
   totalHotels: string;
@@ -73,7 +74,7 @@ export interface TranslationKeys {
   cancelSubscription: string;
   upgradeSubscription: string;
   subscriptionHistory: string;
-  
+
   // أدوار المستخدمين
   admin: string;
   manager: string;
@@ -135,7 +136,7 @@ interface Translations {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private currentLang = new BehaviorSubject<Language>('ar');
@@ -158,6 +159,7 @@ export class LanguageService {
       noNotifications: 'لا توجد إشعارات جديدة',
       profile: 'الملف الشخصي',
       logout: 'تسجيل الخروج',
+      signIn: 'تسجيل الدخول',
 
       // الإحصائيات
       totalHotels: 'إجمالي الفنادق',
@@ -263,7 +265,7 @@ export class LanguageService {
       // رسائل التحقق
       fieldRequired: 'هذا الحقل مطلوب',
       minLength: 'النص قصير جداً',
-      minValue: 'القيمة صغيرة جداً'
+      minValue: 'القيمة صغيرة جداً',
     },
     en: {
       // Sidebar
@@ -282,6 +284,7 @@ export class LanguageService {
       noNotifications: 'No new notifications',
       profile: 'Profile',
       logout: 'Logout',
+      signIn: 'Sign In',
 
       // Statistics
       totalHotels: 'Total Hotels',
@@ -387,8 +390,8 @@ export class LanguageService {
       // Validation Messages
       fieldRequired: 'This field is required',
       minLength: 'Text is too short',
-      minValue: 'Value is too small'
-    }
+      minValue: 'Value is too small',
+    },
   };
 
   constructor() {
@@ -419,4 +422,4 @@ export class LanguageService {
     const lang = this.currentLang.value;
     return this.translations[lang][key] || key;
   }
-} 
+}

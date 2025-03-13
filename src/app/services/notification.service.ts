@@ -12,7 +12,7 @@ export interface Notification {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NotificationService {
   private notifications = new BehaviorSubject<Notification[]>([
@@ -23,7 +23,7 @@ export class NotificationService {
       message: 'تم إضافة فندق "برج العرب" إلى النظام',
       time: new Date(),
       read: false,
-      icon: 'hotel'
+      icon: 'hotel',
     },
     {
       id: 2,
@@ -32,7 +32,7 @@ export class NotificationService {
       message: 'تم حجز غرفة في فندق الريتز كارلتون',
       time: new Date(Date.now() - 3600000),
       read: false,
-      icon: 'book_online'
+      icon: 'book_online',
     },
     {
       id: 3,
@@ -41,8 +41,8 @@ export class NotificationService {
       message: 'تم تحديث النظام إلى الإصدار الجديد',
       time: new Date(Date.now() - 7200000),
       read: false,
-      icon: 'system_update'
-    }
+      icon: 'system_update',
+    },
   ]);
 
   getNotifications(): Observable<Notification[]> {
@@ -53,30 +53,32 @@ export class NotificationService {
     const currentNotifications = this.notifications.value;
     const newNotification = {
       ...notification,
-      id: currentNotifications.length + 1
+      id: currentNotifications.length + 1,
     };
     this.notifications.next([newNotification, ...currentNotifications]);
   }
 
   markAsRead(id: number) {
-    const updatedNotifications = this.notifications.value.map(notification =>
+    const updatedNotifications = this.notifications.value.map((notification) =>
       notification.id === id ? { ...notification, read: true } : notification
     );
     this.notifications.next(updatedNotifications);
   }
 
   markAllAsRead() {
-    const updatedNotifications = this.notifications.value.map(notification => ({
-      ...notification,
-      read: true
-    }));
+    const updatedNotifications = this.notifications.value.map(
+      (notification) => ({
+        ...notification,
+        read: true,
+      })
+    );
     this.notifications.next(updatedNotifications);
   }
 
   clearNotification(id: number) {
     const updatedNotifications = this.notifications.value.filter(
-      notification => notification.id !== id
+      (notification) => notification.id !== id
     );
     this.notifications.next(updatedNotifications);
   }
-} 
+}

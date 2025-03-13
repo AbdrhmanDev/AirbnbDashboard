@@ -1,12 +1,31 @@
 <nav class="navbar">
   <div class="container-fluid">
-    <!-- Logo and brand -->
-    <div class="navbar-brand">
-      <img src="assets/logo.png" alt="Logo">
+    <!-- Left Section -->
+    <div class="navbar-left">
+      <div class="navbar-brand">
+        <img src="https://a0.muscache.com/airbnb/static/logos/belo-400x400.png" alt="Logo" class="brand-logo">
+        <div class="brand-text">Airbnb Dashboard</div>
+      </div>
     </div>
 
-    <!-- Navbar items -->
-    <div class="navbar-items">
+    <!-- Center Section -->
+    <div class="navbar-center">
+      <div class="search-box">
+        <span class="material-icons">search</span>
+        <input type="text" placeholder="Search..." class="search-input">
+      </div>
+    </div>
+
+    <!-- Right Section -->
+    <div class="navbar-right">
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <button class="btn-icon" (click)="toggleLanguage()">
+          <span class="material-icons">language</span>
+          <span class="lang-text">{{currentLang === 'ar' ? 'English' : 'العربية'}}</span>
+        </button>
+      </div>
+
       <!-- Notifications -->
       <div class="notifications-wrapper">
         <button class="btn-icon" (click)="toggleNotifications()">
@@ -16,25 +35,50 @@
           </span>
         </button>
         <div class="notifications-panel" *ngIf="showNotifications">
+          <div class="notifications-header">
+            <h3>{{translate('notifications')}}</h3>
+            <button class="btn-text" (click)="markAllAsRead()">
+              {{translate('markAllAsRead')}}
+            </button>
+          </div>
           <app-notifications></app-notifications>
         </div>
       </div>
 
       <!-- Balance -->
       <div class="balance-wrapper">
-        <span class="balance-label">الرصيد:</span>
-        <span class="balance-amount">{{balance}} ريال</span>
+        <div class="balance-icon">
+          <span class="material-icons">account_balance_wallet</span>
+        </div>
+        <div class="balance-info">
+          <span class="balance-label">{{translate('balance')}}</span>
+          <span class="balance-amount">{{balance}} {{currentLang === 'ar' ? 'ريال' : 'SAR'}}</span>
+        </div>
       </div>
 
       <!-- User Profile -->
       <div class="user-profile">
-        <img src="assets/avatar.png" alt="User Avatar" class="avatar">
-        <div class="user-info">
-          <span class="user-name">{{userName}}</span>
-          <span class="user-role">{{userRole}}</span>
-        </div>
+        <ng-container *ngIf="user; else loginButton">
+          <div class="user-avatar">
+            <img [src]="userAvatar" alt="User Avatar" class="avatar">
+            <span class="status-indicator"></span>
+          </div>
+          <div class="user-info">
+            <span class="user-name">{{userName}}</span>
+            <span class="user-role">{{translate(userRole)}}</span>
+          </div>
+          <button class="btn-icon profile-menu" (click)="logout()">
+            <span class="material-icons">logout</span>
+            <span>{{translate('logout')}}</span>
+          </button>
+        </ng-container>
+        <ng-template #loginButton>
+          <button class="btn-icon profile-menu" routerLink="/login">
+            <span class="material-icons">login</span>
+            <span>{{translate('signIn')}}</span>
+          </button>
+        </ng-template>
       </div>
     </div>
   </div>
-</nav> 
-</nav> 
+</nav>
