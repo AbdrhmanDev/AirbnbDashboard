@@ -1,0 +1,148 @@
+<div class="analytics-container">
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">people</span>
+      </div>
+      <div class="stat-details">
+        <h3>Total Users</h3>
+        <div class="stat-value">{{ totalUsers }}</div>
+        <div
+          class="stat-change"
+          [ngClass]="{ positive: usersChange >= 0, negative: usersChange < 0 }"
+        >
+          <span class="material-icons">{{
+            usersChange >= 0 ? "trending_up" : "trending_down"
+          }}</span>
+          {{ Math.abs(usersChange) }}%
+          {{ usersChange >= 0 ? "increase" : "decrease" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">hotel</span>
+      </div>
+      <div class="stat-details">
+        <h3>Total Bookings</h3>
+        <div class="stat-value">{{ totalBookings }}</div>
+        <div
+          class="stat-change"
+          [ngClass]="{
+            positive: bookingsChange >= 0,
+            negative: bookingsChange < 0
+          }"
+        >
+          <span class="material-icons">{{
+            bookingsChange >= 0 ? "trending_up" : "trending_down"
+          }}</span>
+          {{ Math.abs(bookingsChange) }}%
+          {{ bookingsChange >= 0 ? "increase" : "decrease" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">attach_money</span>
+      </div>
+      <div class="stat-details">
+        <h3>Total Revenue</h3>
+        <div class="stat-value">{{ totalRevenue | currency : "SAR" }}</div>
+        <div
+          class="stat-change"
+          [ngClass]="{
+            positive: revenueChange >= 0,
+            negative: revenueChange < 0
+          }"
+        >
+          <span class="material-icons">{{
+            revenueChange >= 0 ? "trending_up" : "trending_down"
+          }}</span>
+          {{ Math.abs(revenueChange) }}%
+          {{ revenueChange >= 0 ? "increase" : "decrease" }}
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <span class="material-icons">apartment</span>
+      </div>
+      <div class="stat-details">
+        <h3>Total Hotels</h3>
+        <div class="stat-value">{{ totalHotels }}</div>
+        <div
+          class="stat-change"
+          [ngClass]="{
+            positive: hotelsChange >= 0,
+            negative: hotelsChange < 0
+          }"
+        >
+          <span class="material-icons">{{
+            hotelsChange >= 0 ? "trending_up" : "trending_down"
+          }}</span>
+          {{ Math.abs(hotelsChange) }}%
+          {{ hotelsChange >= 0 ? "increase" : "decrease" }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Tables -->
+  <div class="analytics-tables">
+    <div class="table-card">
+      <h3>Latest Payments</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Amount</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let payment of latestPayments">
+              <td>{{ payment.userId }}</td>
+              <td>{{ payment.amount | currency : "SAR" }}</td>
+              <td>{{ payment.createdAt | date : "short" }}</td>
+              <td>
+                <span [class]="'status ' + payment.status">{{
+                  payment.status
+                }}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="table-card">
+      <h3>Payment Summary</h3>
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>Status</th>
+              <th>Count</th>
+              <th>Amount</th>
+              <th>Percentage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let summary of paymentSummary">
+              <td>{{ summary.status }}</td>
+              <td>{{ summary.count }}</td>
+              <td>{{ summary.totalAmount | currency : "SAR" }}</td>
+              <td>{{ summary.percentage }}%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

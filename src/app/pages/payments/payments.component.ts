@@ -114,6 +114,7 @@ export class PaymentsComponent implements OnInit {
     this.isLoading = true;
     this.paymentService.getPayments().subscribe({
       next: (payments) => {
+        console.log(payments);
         this.dataSource.data = payments;
         this.isLoading = false;
       },

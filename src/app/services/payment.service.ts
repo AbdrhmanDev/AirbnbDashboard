@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,45 +14,42 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  getPayments(filters?: PaymentFilters): Observable<Payment[]> {
-    let params = new HttpParams();
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('access_token');
+    return new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  }
 
-    if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== null) {
-          if (value instanceof Date) {
-            params = params.set(key, value.toISOString());
-          } else {
-            params = params.set(key, value.toString());
-          }
-        }
-      });
-    }
-
+  getPayments(): Observable<Payment[]> {
     return this.http
-      .get<{ message: string; payments: Payment[] }>(this.apiUrl, { params })
-      .pipe(map((response) => response.payments));
+      .get<Payment[]>(this.apiUrl, {
+        headers: this.getAuthHeaders(),
+      })
+      .pipe(map((response) => response));
   }
 
   getPaymentById(id: string): Observable<Payment> {
     return this.http
-      .get<{ message: string; payment: Payment }>(`${this.apiUrl}/${id}`)
+      .get<{ message: string; payment: Payment }>(`${this.apiUrl}/${id}`, {
+        headers: this.getAuthHeaders(),
+      })
       .pipe(map((response) => response.payment));
   }
 
   getPaymentSummary(): Observable<PaymentSummary> {
     return this.http
-      .get<{ message: string; summary: PaymentSummary }>(
-        `${this.apiUrl}/summary`
+      .get< PaymentSummary >(
+        `${this.apiUrl}/payment/summary`,
+        { headers: this.getAuthHeaders() }
       )
-      .pipe(map((response) => response.summary));
+      .pipe(map((response) => response));
   }
 
   processPayment(id: string): Observable<Payment> {
     return this.http
       .post<{ message: string; payment: Payment }>(
         `${this.apiUrl}/${id}/process`,
-        {}
+        {},
+        { headers: this.getAuthHeaders() }
       )
       .pipe(map((response) => response.payment));
   }
@@ -61,14 +58,17 @@ export class PaymentService {
     return this.http
       .post<{ message: string; payment: Payment }>(
         `${this.apiUrl}/${id}/refund`,
-        {}
+        {},
+        { headers: this.getAuthHeaders() }
       )
       .pipe(map((response) => response.payment));
   }
 
   createPayment(paymentData: Partial<Payment>): Observable<Payment> {
     return this.http
-      .post<{ message: string; payment: Payment }>(this.apiUrl, paymentData)
+      .post<{ message: string; payment: Payment }>(this.apiUrl, paymentData, {
+        headers: this.getAuthHeaders(),
+      })
       .pipe(map((response) => response.payment));
   }
 
@@ -76,14 +76,17 @@ export class PaymentService {
     return this.http
       .put<{ message: string; payment: Payment }>(
         `${this.apiUrl}/${id}`,
-        updateData
+        updateData,
+        { headers: this.getAuthHeaders() }
       )
       .pipe(map((response) => response.payment));
   }
 
   deletePayment(id: string): Observable<void> {
     return this.http
-      .delete<{ message: string }>(`${this.apiUrl}/${id}`)
+      .delete<{ message: string }>(`${this.apiUrl}/${id}`, {
+        headers: this.getAuthHeaders(),
+      })
       .pipe(map(() => void 0));
   }
 }

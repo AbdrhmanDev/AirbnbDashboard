@@ -7,7 +7,7 @@ import { Router, RouterModule } from '@angular/router';
   templateUrl: './aside.component.html',
   styleUrls: ['./aside.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule],
 })
 export class AsideComponent {
   currentRoute: string = 'home';
@@ -23,4 +23,4 @@ export class AsideComponent {
     this.currentRoute = route;
     this.router.navigate([route]);
   }
-} 
+}
