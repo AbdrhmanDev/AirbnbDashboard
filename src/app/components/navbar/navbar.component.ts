@@ -64,19 +64,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.notificationService.getNotifications().subscribe((notifications) => {
-      this.unreadCount = notifications.filter((n) => !n.read).length;
-    });
+    // Load initial user state
+    this.user = this.userStateService.getUser();
+    if (this.user?._id) {
+      this.loadTotalRevenue(this.user._id);
+    }
 
     // Subscribe to user state changes
     this.userSubscription = this.userStateService.user$.subscribe((user) => {
       this.user = user;
       console.log('User state updated in navbar:', user);
-      if (user && user._id) {
+      if (user?._id) {
         this.loadTotalRevenue(user._id);
       }
     });
 
+    // Load notifications
+    this.notificationService.getNotifications().subscribe((notifications) => {
+      this.unreadCount = notifications.filter((n) => !n.read).length;
+    });
+
+    // Try to load fresh user data if we have a token
     this.loadUser();
   }
 
@@ -176,12 +184,12 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout() {
     this.loginService.logout();
     this.userStateService.clearUser();
-    window.location.href = '/login';
+    this.router.navigate(['/login']);
   }
 
   // Computed properties for user information
   get userName(): string {
-    return this.user ? `${this.user.firstName} ${this.user.lastName}` : '';
+    return this.user ? `${this.user.firstName} ${this.user.lastName}` : 'Guest';
   }
 
   get userRole(): string {
@@ -190,7 +198,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   get userAvatar(): string {
-    return this.user?.profileImage || 'assets/avatar.png';
+    return this.user?.profileImage || 'assets/images/default-avatar.png';
   }
 
   navigateToProfile(): void {
