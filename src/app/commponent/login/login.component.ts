@@ -6,6 +6,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
+import { UserStateService } from '../../services/user-state.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -24,6 +25,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private loginServ: LoginService,
+    private userStateService: UserStateService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
@@ -53,11 +55,15 @@ export class LoginComponent implements OnInit {
         next: (res) => {
           console.log('response', res);
           this.loginServ.saveToken(res.token);
+          this.loginServ.saveUserData(res.user);
           console.log(res.token);
           if (this.loginForm.get('rememberMe')?.value) {
             localStorage.setItem('rememberMe', 'true');
           }
-          this.router.navigate(['/home']);
+          // Set the user in the UserStateService
+          this.userStateService.setUser(res.user);
+          // Force a page reload to ensure all components are updated
+          window.location.href = '/home';
         },
         error: (error) => {
           console.error('Login error:', error);

@@ -7,6 +7,7 @@ import { UpdateHotelComponent } from './components/hotels/update-hotel/update-ho
 import { UserCreateComponent } from './pages/users/user-create/user-create.component';
 import { BookingDetailsComponent } from './pages/bookings/booking-details/booking-details.component';
 import { AuthGuard } from './guards/auth.guard';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -120,6 +121,11 @@ export const routes: Routes = [
     path: 'hotels/:id',
     component: HotelDetialsComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    title: 'My Profile',
   },
   {
     path: '**',

@@ -45,19 +45,19 @@
         </div>
       </div>
 
-      <!-- Balance -->
+      <!-- Total Revenue -->
       <div class="balance-wrapper">
         <div class="balance-icon">
           <span class="material-icons">account_balance_wallet</span>
         </div>
         <div class="balance-info">
-          <span class="balance-label">{{translate('balance')}}</span>
-          <span class="balance-amount">{{balance}} {{currentLang === 'ar' ? 'ريال' : 'SAR'}}</span>
+          <span class="balance-label">{{translate('totalRevenue')}}</span>
+          <span class="balance-amount">{{totalRevenue}} {{currentLang === 'ar' ? 'ريال' : 'SAR'}}</span>
         </div>
       </div>
 
       <!-- User Profile -->
-      <div class="user-profile">
+      <div class="user-profile" (click)="navigateToProfile()">
         <ng-container *ngIf="user; else loginButton">
           <div class="user-avatar">
             <img [src]="userAvatar" alt="User Avatar" class="avatar">
@@ -67,7 +67,7 @@
             <span class="user-name">{{userName}}</span>
             <span class="user-role">{{translate(userRole)}}</span>
           </div>
-          <button class="btn-icon profile-menu" (click)="logout()">
+          <button class="btn-icon profile-menu" (click)="logout(); $event.stopPropagation()">
             <span class="material-icons">logout</span>
             <span>{{translate('logout')}}</span>
           </button>
@@ -79,6 +79,7 @@
           </button>
         </ng-template>
       </div>
+
     </div>
   </div>
 </nav>

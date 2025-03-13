@@ -1,0 +1,190 @@
+.page-container {
+    padding: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 24px;
+}
+
+.header-content h1 {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.header-icon {
+    margin-right: 12px;
+    color: #ff385c;
+}
+
+.subtitle {
+    margin: 4px 0 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.content-container {
+    position: relative;
+    min-height: 200px;
+}
+
+.loading-spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.error-message {
+    text-align: center;
+    color: #d32f2f;
+    padding: 24px;
+}
+
+.error-message mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+}
+
+.error-message p {
+    margin: 0;
+    font-size: 16px;
+}
+
+.profile-card {
+    background: white;
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.profile-image-section {
+    width: 120px;
+    height: 120px;
+    margin-right: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-upload {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.image-upload button {
+    width: 100%;
+    padding: 8px;
+    border: 2px dashed #e2e8f0;
+    color: #4a5568;
+}
+
+.image-upload button:hover {
+    border-color: #ff385c;
+    color: #ff385c;
+}
+
+.profile-title {
+    flex: 1;
+}
+
+.profile-title h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 500;
+    color: #1a1a1a;
+}
+
+.role-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.role-badge.guest {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.role-badge.host {
+    background-color: #f3e5f5;
+    color: #9c27b0;
+}
+
+.role-badge.admin {
+    background-color: #fbe9e7;
+    color: #d84315;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.form-row mat-form-field {
+    flex: 1;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .page-container {
+        padding: 16px;
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-image-section {
+        margin: 0 0 16px;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+
+    .form-actions button {
+        width: 100%;
+    }
+}

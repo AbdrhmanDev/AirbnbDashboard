@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NotificationsComponent } from '../notifications/notifications.component';
 import { NotificationService } from '../../services/notification.service';
 import { LoginService } from '../../services/login.service';
 import { UserService } from '../../services/user.service';
+import { UserStateService } from '../../services/user-state.service';
+import { BookingService } from '../../services/booking.service';
 import { UserResponse } from '../../models/user';
 import {
   LanguageService,
   Language,
   TranslationKeys,
 } from '../../services/language.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +22,7 @@ import {
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   notifications = [
     {
       id: 1,
@@ -44,18 +47,21 @@ export class NavbarComponent implements OnInit {
     },
   ];
 
-  balance = 2450.0;
+  totalRevenue = 0;
   unreadNotifications = 3;
   currentLang: Language = 'ar';
   user: UserResponse | null = null;
   showNotifications = false;
   unreadCount = 0;
+  private userSubscription: Subscription | null = null;
 
   constructor(
     private notificationService: NotificationService,
     private languageService: LanguageService,
     private loginService: LoginService,
     private userService: UserService,
+    private userStateService: UserStateService,
+    private bookingService: BookingService,
     private router: Router
   ) {}
 
@@ -67,27 +73,78 @@ export class NavbarComponent implements OnInit {
     this.notificationService.getNotifications().subscribe((notifications) => {
       this.unreadCount = notifications.filter((n) => !n.read).length;
     });
+
+    // Subscribe to user state changes
+    this.userSubscription = this.userStateService.user$.subscribe((user) => {
+      this.user = user;
+      console.log('User state updated in navbar:', user);
+      if (user && user._id) {
+        this.loadTotalRevenue(user._id);
+      }
+    });
+
     this.loadUser();
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
+
+  loadTotalRevenue(userId: string) {
+    // If user is a host, get their bookings
+    if (this.user?.role === 'Host') {
+      this.bookingService.getHostBookings(userId).subscribe({
+        next: (bookings) => {
+          this.totalRevenue = bookings
+            .filter((booking) => booking.status === 'confirmed')
+            .reduce((total, booking) => {
+              return total + (booking.totalPrice || 0);
+            }, 0);
+          console.log(
+            'Total Revenue from confirmed bookings:',
+            this.totalRevenue
+          );
+        },
+        error: (error) => {
+          console.error('Error loading total revenue:', error);
+        },
+      });
+    }
+    // If user is an admin, get all bookings
+    else if (this.user?.role === 'Admin') {
+      this.bookingService.getBookings().subscribe({
+        next: (bookings) => {
+          this.totalRevenue = bookings
+            .filter((booking) => booking.status === 'confirmed')
+            .reduce((total, booking) => {
+              return total + (booking.totalPrice || 0);
+            }, 0);
+          console.log(
+            'Total Revenue from confirmed bookings:',
+            this.totalRevenue
+          );
+        },
+        error: (error) => {
+          console.error('Error loading total revenue:', error);
+        },
+      });
+    }
   }
 
   loadUser() {
     // First try to get user data from localStorage
-    const userData = localStorage.getItem('user_data');
+    const userData = this.loginService.getUserData();
     if (userData) {
-      try {
-        this.user = JSON.parse(userData);
-        console.log('User loaded from localStorage:', this.user);
-      } catch (error) {
-        console.error('Error parsing user data:', error);
-        localStorage.removeItem('user_data');
-      }
+      this.userStateService.setUser(userData);
+      console.log('User loaded from localStorage:', userData);
     }
 
     // Then try to get fresh data from the server
     const token = this.loginService.getToken();
     if (token) {
       try {
-        // Extract user ID from token payload
         const tokenPayload = JSON.parse(atob(token.split('.')[1]));
         const userId = tokenPayload.id;
         console.log('Token payload:', tokenPayload);
@@ -96,14 +153,13 @@ export class NavbarComponent implements OnInit {
         if (userId) {
           this.userService.getUserById(userId).subscribe({
             next: (user) => {
-              this.user = user;
+              this.userStateService.setUser(user);
+              this.loginService.saveUserData(user);
               console.log('User loaded from server:', user);
-              // Update localStorage with fresh data
-              localStorage.setItem('user_data', JSON.stringify(user));
             },
             error: (error) => {
               console.error('Error loading user:', error);
-              this.logout(); // Logout if there's an error loading user data
+              this.logout();
             },
           });
         }
@@ -133,10 +189,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('user_data');
-    localStorage.removeItem('access_token');
     this.loginService.logout();
-    this.router.navigate(['/login']);
+    this.userStateService.clearUser();
+    window.location.href = '/login';
   }
 
   // Computed properties for user information
@@ -155,7 +210,12 @@ export class NavbarComponent implements OnInit {
   }
 
   get userAvatar(): string {
-    console.log(this.user?.profileImage);
     return this.user?.profileImage || 'assets/avatar.png';
+  }
+
+  navigateToProfile(): void {
+    if (this.user) {
+      this.router.navigate(['/profile']);
+    }
   }
 }
