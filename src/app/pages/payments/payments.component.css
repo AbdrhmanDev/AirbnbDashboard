@@ -1,0 +1,209 @@
+.page-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Loading State */
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.loading-spinner p {
+  margin-top: 16px;
+  color: #666;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin: 0;
+  color: #333;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  height: 100%;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+}
+
+.card-icon mat-icon {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.card-info h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.card-info .amount {
+  margin: 8px 0 4px;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.card-info .count {
+  margin: 0;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* Card Colors */
+.summary-card.total .card-icon {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+.summary-card.completed .card-icon {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.summary-card.pending .card-icon {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.summary-card.refunded .card-icon {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+/* Filters */
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.filters mat-form-field {
+  width: 100%;
+}
+
+/* Table */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-column-actions {
+  width: 120px;
+  text-align: center;
+}
+
+.mat-column-status {
+  width: 120px;
+}
+
+.mat-column-amount {
+  width: 120px;
+}
+
+/* Status Chips */
+.status-chip {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.status-completed {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+.status-failed {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-refunded {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 960px) {
+  .page-container {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .mat-column-actions,
+  .mat-column-status,
+  .mat-column-amount {
+    width: auto;
+  }
+}

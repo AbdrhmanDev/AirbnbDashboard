@@ -46,6 +46,13 @@ export const routes: Routes = [
     component: BookingDetailsComponent,
   },
   {
+    path: 'payments',
+    loadComponent: () =>
+      import('./pages/payments/payments.component').then(
+        (m) => m.PaymentsComponent
+      ),
+  },
+  {
     path: 'products',
     component: HotelsComponent,
   },

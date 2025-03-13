@@ -59,45 +59,32 @@ export class BookingService {
   // Update a booking
   updateBooking(id: string, updateData: UpdateBookingDTO): Observable<Booking> {
     return this.http
-      .put<{
-        message: string;
-        booking: Booking & { userId: User; hostId: User };
-      }>(`${this.apiUrl}/${id}`, updateData, {
+      .put<any>(`${this.apiUrl}/${id}`, updateData, {
         headers: this.getAuthHeaders(),
       })
       .pipe(map((response) => response.booking));
   }
 
   // Cancel a booking
-  cancelBooking(id: string): Observable<Booking> {
-    return this.http
-      .patch<{
-        message: string;
-        booking: Booking & { userId: User; hostId: User };
-      }>(
-        `${this.apiUrl}/${id}/cancel`,
-        {},
-        {
-          headers: this.getAuthHeaders(),
-        }
-      )
-      .pipe(map((response) => response.booking));
+  cancelBooking(id: string): Observable<{ message: string }> {
+    return this.http.patch<any>(
+      `${this.apiUrl}/${id}/cancel`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
   // Confirm a booking
-  confirmBooking(id: string): Observable<Booking> {
-    return this.http
-      .patch<{
-        message: string;
-        booking: Booking & { userId: User; hostId: User };
-      }>(
-        `${this.apiUrl}/${id}/confirm`,
-        {},
-        {
-          headers: this.getAuthHeaders(),
-        }
-      )
-      .pipe(map((response) => response.booking));
+  confirmBooking(id: string): Observable<{ message: string }> {
+    return this.http.patch<any>(
+      `${this.apiUrl}/${id}/confirm`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
   // Update payment status

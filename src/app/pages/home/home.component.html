@@ -1,48 +1,211 @@
-<div class="home-container">
-    <div class="page-header">
-      <h1>الفنادق</h1>
-      <button mat-raised-button color="primary" routerLink="/add-hotel">
-        <mat-icon>add</mat-icon>
-        إضافة فندق
-      </button>
-    </div>
-  
-    <!-- <div class="hotels-grid">
-      <div class="hotel-card" *ngFor="let hotel of hotels">
-        <img [src]="hotel.image || 'assets/images/placeholder.jpg'" [alt]="hotel.title">
-        <div class="hotel-info">
-          <h3>{{hotel.title}}</h3>
-          <p class="location">
-            <mat-icon>location_on</mat-icon>
-            {{hotel.location}}
-          </p>
-          <p class="category">{{ getCategoryLabel(hotel.category) }}</p>
-          <div class="rating">
-            <span class="stars">
-              <mat-icon *ngFor="let star of [].constructor(hotel.rating)">star</mat-icon>
-            </span>
-            <span class="reviews">({{ hotel.reviews }} تقييم)</span>
-          </div>
-          <div class="details">
-            <span><mat-icon>hotel</mat-icon> {{hotel.totalRooms}} غرفة</span>
-            <span><mat-icon>bathroom</mat-icon> {{hotel.bathrooms}} حمام</span>
-          </div>
-          <p class="description">{{ hotel.description | slice:0:100 }}...</p>
-          <div class="price">
-            <span class="amount">{{ hotel.price }} ريال</span>
-            <span class="per-night">/ ليلة</span>
-          </div>
-          <div class="status" [class.available]="hotel.status === 'available'">
-            {{ hotel.status === 'available' ? 'متاح' : 'غير متاح' }}
-          </div>
-          <div class="actions">
-            <button mat-button color="primary">عرض التفاصيل</button>
-            <button mat-button [disabled]="hotel.status === 'unavailable'">
-              حجز الآن
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
+<div class="dashboard-container">
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading dashboard data...</p>
   </div>
-  
+
+  <!-- Dashboard Content -->
+  <div class="dashboard-content" *ngIf="!isLoading">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <h1>Dashboard Overview</h1>
+      <p>Welcome to your Airbnb management dashboard</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <mat-card class="stat-card total">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon>dashboard</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Total Bookings</h3>
+            <p class="stat-value">{{ bookingStats.total }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card confirmed">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Confirmed</h3>
+            <p class="stat-value">{{ bookingStats.confirmed }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card pending">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon>pending</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Pending</h3>
+            <p class="stat-value">{{ bookingStats.pending }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card revenue">
+        <mat-card-content>
+          <div class="stat-icon">
+            <mat-icon>payments</mat-icon>
+          </div>
+          <div class="stat-info">
+            <h3>Total Revenue</h3>
+            <p class="stat-value">{{ formatCurrency(bookingStats.revenue) }}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Charts and Popular Properties Section -->
+    <div class="dashboard-grid">
+      <!-- Popular Properties -->
+      <mat-card class="popular-properties">
+        <mat-card-header>
+          <mat-card-title>Popular Properties</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="property-list">
+            <div
+              class="property-item"
+              *ngFor="let property of popularProperties"
+            >
+              <div class="property-info">
+                <h4>{{ property.title }}</h4>
+                <p>
+                  {{ property.count }} bookings ({{ property.occupancyRate }}%
+                  of total)
+                </p>
+              </div>
+              <div class="property-stats">
+                <mat-progress-bar
+                  mode="determinate"
+                  [value]="(property.count / bookingStats.total) * 100"
+                >
+                </mat-progress-bar>
+                <div class="stats-details">
+                  <span class="property-revenue">{{
+                    formatCurrency(property.revenue)
+                  }}</span>
+                  <span class="last-booking"
+                    >Last booking: {{ getTimeAgo(property.lastBooking) }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Recent Activities -->
+      <mat-card class="activities-card">
+        <mat-card-header>
+          <mat-card-title>Recent Activities</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="activity-list">
+            <div
+              class="activity-item"
+              *ngFor="let activity of recentActivities"
+            >
+              <div class="activity-icon" [ngClass]="activity.type">
+                <mat-icon>
+                  {{
+                    activity.type === "confirmed"
+                      ? "check_circle"
+                      : activity.type === "pending"
+                      ? "pending"
+                      : "cancel"
+                  }}
+                </mat-icon>
+              </div>
+              <div class="activity-details">
+                <p class="activity-message">{{ activity.message }}</p>
+                <span class="activity-time">{{
+                  getTimeAgo(activity.time)
+                }}</span>
+              </div>
+              <div class="activity-amount">
+                {{ formatCurrency(activity.amount) }}
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Recent Bookings -->
+    <mat-card class="recent-bookings">
+      <mat-card-header>
+        <mat-card-title>Recent Bookings</mat-card-title>
+        <button mat-button color="primary" routerLink="/bookings">
+          View All
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="table-container mat-elevation-z8">
+          <table mat-table [dataSource]="recentBookings">
+            <!-- Booking ID Column -->
+            <ng-container matColumnDef="bookingId">
+              <th mat-header-cell *matHeaderCellDef>Booking ID</th>
+              <td mat-cell *matCellDef="let booking">{{ booking._id }}</td>
+            </ng-container>
+
+            <!-- Guest Column -->
+            <ng-container matColumnDef="guest">
+              <th mat-header-cell *matHeaderCellDef>Guest</th>
+              <td mat-cell *matCellDef="let booking">
+                {{ booking.userId?.firstName }} {{ booking.userId?.lastName }}
+              </td>
+            </ng-container>
+
+            <!-- Property Column -->
+            <ng-container matColumnDef="property">
+              <th mat-header-cell *matHeaderCellDef>Property</th>
+              <td mat-cell *matCellDef="let booking">
+                {{ booking.propertyId?.title }}
+              </td>
+            </ng-container>
+
+            <!-- Check-in Date Column -->
+            <ng-container matColumnDef="checkIn">
+              <th mat-header-cell *matHeaderCellDef>Check-in</th>
+              <td mat-cell *matCellDef="let booking">
+                {{ formatDate(booking.checkIn) }}
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef>Status</th>
+              <td mat-cell *matCellDef="let booking">
+                <span class="status-badge" [class]="booking.status">
+                  {{ booking.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef>Amount</th>
+              <td mat-cell *matCellDef="let booking">
+                {{ formatCurrency(booking.totalPrice) }}
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

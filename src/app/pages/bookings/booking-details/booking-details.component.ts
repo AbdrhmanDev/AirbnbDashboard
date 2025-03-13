@@ -149,8 +149,8 @@ export class BookingDetailsComponent implements OnInit {
   confirmBooking() {
     if (!this.booking?._id) return;
     this.bookingService.confirmBooking(this.booking._id).subscribe({
-      next: (updatedBooking) => {
-        this.booking = updatedBooking;
+      next: (response: { message: string }) => {
+        this.booking!.status = 'confirmed';
         this.snackBar.open('Booking confirmed successfully', 'Close', {
           duration: 3000,
         });
@@ -167,8 +167,8 @@ export class BookingDetailsComponent implements OnInit {
     if (!this.booking?._id) return;
     if (confirm('Are you sure you want to cancel this booking?')) {
       this.bookingService.cancelBooking(this.booking._id).subscribe({
-        next: (updatedBooking) => {
-          this.booking = updatedBooking;
+        next: (response: { message: string }) => {
+          this.booking!.status = 'cancelled';
           this.snackBar.open('Booking cancelled successfully', 'Close', {
             duration: 3000,
           });
