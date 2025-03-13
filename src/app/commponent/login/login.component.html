@@ -1,36 +1,81 @@
-<div class="login-container">
-  <h2 class="text-center">Login</h2>
-  <button class="btn btn-outline-danger btn-block my-3">Use Google Account</button>
-  <p class="text-center">or</p>
-  
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter email">
-      <small *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-danger">
-        Valid email is required.
-      </small>
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-header">
+      <img src="https://a0.muscache.com/airbnb/static/logos/belo-400x400.png" alt="Airbnb Logo" class="logo">
+      <h1>Welcome Back</h1>
+      <p>Sign in to your Airbnb account</p>
     </div>
 
-    <div class="form-group">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password">
-      <small *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
-        Password must be at least 6 characters.
-      </small>
+    <div class="social-login">
+      <button class="google-btn">
+        <img src="https://www.google.com/favicon.ico" alt="Google" class="google-icon">
+        Continue with Google
+      </button>
+      <div class="divider">
+        <span>or</span>
+      </div>
     </div>
 
-    <!-- <div class="form-group radio-group">
-      <div class="custom-radio">
-        <input type="radio" id="host" formControlName="role" value="host">
-        <label for="host">Host</label>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="login-form">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <div class="input-group">
+          <span class="material-icons">email</span>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            placeholder="Enter your email"
+            [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+          <span class="material-icons">error</span>
+          Please enter a valid email address
+        </div>
       </div>
-      <div class="custom-radio">
-        <input type="radio" id="admin" formControlName="role" value="admin">
-        <label for="admin">Admin</label>
-      </div>
-    </div> -->
 
-    <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Sign In</button>
-  </form>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-group">
+          <span class="material-icons">lock</span>
+          <input 
+            [type]="showPassword ? 'text' : 'password'" 
+            id="password" 
+            formControlName="password" 
+            placeholder="Enter your password"
+            [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+          >
+          <span class="material-icons toggle-password" (click)="togglePassword()">
+            {{showPassword ? 'visibility_off' : 'visibility'}}
+          </span>
+        </div>
+        <div class="error-message" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+          <span class="material-icons">error</span>
+          Password must be at least 6 characters
+        </div>
+      </div>
+
+      <div class="form-options">
+        <label class="remember-me">
+          <input type="checkbox" formControlName="rememberMe">
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot-password">Forgot password?</a>
+      </div>
+
+      <button 
+        type="submit" 
+        class="submit-btn"
+        [disabled]="loginForm.invalid || isLoading"
+      >
+        <span *ngIf="!isLoading">Sign In</span>
+        <div class="spinner" *ngIf="isLoading"></div>
+      </button>
+
+      <div class="register-link">
+        Don't have an account? <a href="#">Sign up</a>
+      </div>
+    </form>
+  </div>
 </div>
