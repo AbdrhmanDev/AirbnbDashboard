@@ -8,17 +8,13 @@ import { UserService } from '../../services/user.service';
 import { UserStateService } from '../../services/user-state.service';
 import { BookingService } from '../../services/booking.service';
 import { UserResponse } from '../../models/user';
-import {
-  LanguageService,
-  Language,
-  TranslationKeys,
-} from '../../services/language.service';
 import { Subscription } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, NotificationsComponent, RouterModule],
+  imports: [CommonModule, NotificationsComponent, RouterModule, FormsModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
@@ -27,37 +23,39 @@ export class NavbarComponent implements OnInit, OnDestroy {
     {
       id: 1,
       icon: 'payment',
-      message: 'تم إتمام عملية الدفع بنجاح',
-      time: 'منذ 5 دقائق',
+      message: 'Payment completed successfully',
+      time: '5 minutes ago',
       unread: true,
     },
     {
       id: 2,
       icon: 'shopping_cart',
-      message: 'تم تأكيد طلبك #12345',
-      time: 'منذ ساعة',
+      message: 'Your order #12345 has been confirmed',
+      time: '1 hour ago',
       unread: false,
     },
     {
       id: 3,
       icon: 'local_offer',
-      message: 'عرض جديد متاح',
-      time: 'منذ 3 ساعات',
+      message: 'New offer available',
+      time: '3 hours ago',
       unread: false,
     },
   ];
 
   totalRevenue = 0;
   unreadNotifications = 3;
-  currentLang: Language = 'ar';
   user: UserResponse | null = null;
   showNotifications = false;
   unreadCount = 0;
   private userSubscription: Subscription | null = null;
 
+  // UI state properties
+  isUserMenuOpen = false;
+  searchQuery = '';
+
   constructor(
     private notificationService: NotificationService,
-    private languageService: LanguageService,
     private loginService: LoginService,
     private userService: UserService,
     private userStateService: UserStateService,
@@ -66,10 +64,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.languageService.getCurrentLang().subscribe((lang) => {
-      this.currentLang = lang;
-      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    });
     this.notificationService.getNotifications().subscribe((notifications) => {
       this.unreadCount = notifications.filter((n) => !n.read).length;
     });
@@ -174,15 +168,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.showNotifications = !this.showNotifications;
   }
 
-  toggleLanguage() {
-    const newLang = this.currentLang === 'ar' ? 'en' : 'ar';
-    this.languageService.setLanguage(newLang);
-  }
-
-  translate(key: keyof TranslationKeys): string {
-    return this.languageService.translate(key);
-  }
-
   markAllAsRead() {
     this.notificationService.markAllAsRead();
     this.unreadCount = 0;
@@ -199,14 +184,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
     return this.user ? `${this.user.firstName} ${this.user.lastName}` : '';
   }
 
-  get userRole(): keyof TranslationKeys {
-    if (!this.user) return 'user';
-    const roleMap: Record<string, keyof TranslationKeys> = {
-      Admin: 'admin',
-      Host: 'manager',
-      Guest: 'user',
-    };
-    return roleMap[this.user.role] || 'user';
+  get userRole(): string {
+    if (!this.user) return 'Guest';
+    return this.user.role;
   }
 
   get userAvatar(): string {
@@ -217,5 +197,19 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.user) {
       this.router.navigate(['/profile']);
     }
+  }
+
+  // UI interaction methods
+  toggleSidebar(): void {
+    // Implement sidebar toggle logic
+  }
+
+  toggleUserMenu(): void {
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  onSearch(): void {
+    // Implement search logic
+    console.log('Searching for:', this.searchQuery);
   }
 }

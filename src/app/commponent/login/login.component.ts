@@ -48,30 +48,29 @@ export class LoginComponent implements OnInit {
 
   login(): void {
     if (this.loginForm.valid) {
-      this.isLoading = true;
+
       const { email, password } = this.loginForm.value;
 
       this.loginServ.login(email, password).subscribe({
         next: (res) => {
-          console.log('response', res);
-          this.loginServ.saveToken(res.token);
-          this.loginServ.saveUserData(res.user);
-          console.log(res.token);
-          if (this.loginForm.get('rememberMe')?.value) {
-            localStorage.setItem('rememberMe', 'true');
+          console.log('Login response:', res);
+          if (res.token) {
+            this.loginServ.saveToken(res.token);
+            // Save user data if available
+            if (res.user) {
+              localStorage.setItem('user_data', JSON.stringify(res.user));
+            }
+            this.router.navigate(['/home']);
           }
-          // Set the user in the UserStateService
-          this.userStateService.setUser(res.user);
-          // Force a page reload to ensure all components are updated
-          window.location.href = '/home';
+
         },
         error: (error) => {
           console.error('Login error:', error);
           alert('Login failed. Please check your credentials.');
         },
-        complete: () => {
-          this.isLoading = false;
-        },
+
+
+
       });
     } else {
       alert('Please enter valid email and password.');

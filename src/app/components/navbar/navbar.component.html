@@ -2,42 +2,37 @@
   <div class="container-fluid">
     <!-- Left Section -->
     <div class="navbar-left">
-      <div class="navbar-brand">
-        <img src="https://a0.muscache.com/airbnb/static/logos/belo-400x400.png" alt="Logo" class="brand-logo">
-        <div class="brand-text">Airbnb Dashboard</div>
+      <button class="menu-toggle" (click)="toggleSidebar()">
+        <span class="material-icons">menu</span>
+      </button>
+      <div class="logo">
+        <img src="assets/images/logo.png" alt="Airbnb Logo" />
       </div>
     </div>
 
     <!-- Center Section -->
     <div class="navbar-center">
-      <div class="search-box">
+      <div class="search-bar">
         <span class="material-icons">search</span>
-        <input type="text" placeholder="Search..." class="search-input">
+        <input
+          type="text"
+          placeholder="Search..."
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+        />
       </div>
     </div>
 
     <!-- Right Section -->
     <div class="navbar-right">
-      <!-- Language Switcher -->
-    
-
       <!-- Notifications -->
-      <div class="notifications-wrapper">
-        <button class="btn-icon" (click)="toggleNotifications()">
+      <div class="notifications">
+        <button class="icon-button" (click)="toggleNotifications()">
           <span class="material-icons">notifications</span>
-          <span *ngIf="unreadCount > 0" class="notification-badge">
-            {{unreadCount}}
-          </span>
+          <span class="notification-badge" *ngIf="unreadNotifications > 0">{{
+            unreadNotifications
+          }}</span>
         </button>
-        <div class="notifications-panel" *ngIf="showNotifications">
-          <div class="notifications-header">
-            <h3>{{translate('notifications')}}</h3>
-            <button class="btn-text" (click)="markAllAsRead()">
-              {{translate('markAllAsRead')}}
-            </button>
-          </div>
-          <app-notifications></app-notifications>
-        </div>
       </div>
 
       <!-- Total Revenue -->
@@ -46,35 +41,53 @@
           <span class="material-icons">account_balance_wallet</span>
         </div>
         <div class="balance-info">
-          <span class="balance-label">{{translate('totalRevenue')}}</span>
-          <span class="balance-amount">{{totalRevenue}} {{currentLang === 'ar' ? 'ريال' : 'SAR'}}</span>
+          <span class="balance-label">Total Revenue</span>
+          <span class="balance-amount">${{ totalRevenue }}</span>
         </div>
       </div>
 
       <!-- User Profile -->
-      <div class="user-profile" (click)="navigateToProfile()">
-        <ng-container *ngIf="user; else loginButton">
-          <div class="user-avatar">
-            <img [src]="userAvatar" alt="User Avatar" class="avatar">
-            <span class="status-indicator"></span>
-          </div>
+      <div class="user-menu" [class.active]="isUserMenuOpen">
+        <button class="user-menu-button" (click)="toggleUserMenu()">
           <div class="user-info">
-            <span class="user-name">{{userName}}</span>
-            <span class="user-role">{{translate(userRole)}}</span>
+            <img
+              [src]="user?.profileImage || 'assets/images/default-avatar.png'"
+              alt="User"
+              class="user-avatar"
+            />
+            <span class="user-name">{{ userName }}</span>
           </div>
-          <button class="btn-icon profile-menu" (click)="logout(); $event.stopPropagation()">
-            <span class="material-icons">logout</span>
-            <span>{{translate('logout')}}</span>
-          </button>
-        </ng-container>
-        <ng-template #loginButton>
-          <button class="btn-icon profile-menu" routerLink="/login">
-            <span class="material-icons">login</span>
-            <span>{{translate('signIn')}}</span>
-          </button>
-        </ng-template>
-      </div>
+          <span class="material-icons">expand_more</span>
+        </button>
 
+        <div class="user-dropdown" *ngIf="isUserMenuOpen">
+          <div class="dropdown-header">
+            <img
+              [src]="user?.profileImage || 'assets/images/default-avatar.png'"
+              alt="User"
+              class="dropdown-avatar"
+            />
+            <div class="dropdown-user-info">
+              <h3>{{ userName }}</h3>
+              <p>{{ user?.email }}</p>
+            </div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a href="/profile" class="dropdown-item">
+            <span class="material-icons">person</span>
+            Profile
+          </a>
+          <a href="/settings" class="dropdown-item">
+            <span class="material-icons">settings</span>
+            Settings
+          </a>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item logout" (click)="logout()">
+            <span class="material-icons">logout</span>
+            Logout
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </nav>

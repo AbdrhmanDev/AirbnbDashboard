@@ -139,7 +139,7 @@ interface Translations {
   providedIn: 'root',
 })
 export class LanguageService {
-  private currentLang = new BehaviorSubject<Language>('ar');
+  private currentLang = new BehaviorSubject<Language>('en');
 
   private translations: Translations = {
     ar: {
