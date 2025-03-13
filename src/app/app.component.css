@@ -1,20 +1,20 @@
 .app-container {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: #f5f7fa;
 }
 
 .main-wrapper {
   display: flex;
   flex: 1;
-  padding-top: 70px; /* المسافة للـ navbar */
+  position: relative;
+  margin-top: 64px; /* Height of navbar */
 }
 
 .navbar {
   height: 60px;
   background: #fff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar {
@@ -30,13 +30,14 @@
 
 .main-content {
   flex: 1;
-  margin-right: 250px; /* نفس عرض الـ sidebar */
-  padding: 20px;
-  background: #f5f7fa;
-  min-height: calc(100vh - 70px);
+  margin-left: 240px; /* Match sidebar width */
+  padding: 24px;
+  min-height: calc(100vh - 64px);
+  background-color: #f7f7f7;
+  transition: margin-left 0.3s ease;
 }
 
-/* تنسيقات السكرول */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -54,14 +55,21 @@
   background: #555;
 }
 
-/* تأكيد أن كل شيء يأخذ العرض الكامل */
+/* Reset default styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* تنسيقات للشاشات الصغيرة */
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .main-content {
+    background-color: #1a1a1a;
+  }
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .sidebar {
     width: 0;
@@ -70,7 +78,7 @@
   }
 
   .main-content {
-    margin-right: 0;
+    margin-left: 72px; /* Match collapsed sidebar width */
   }
 
   .sidebar.active {
