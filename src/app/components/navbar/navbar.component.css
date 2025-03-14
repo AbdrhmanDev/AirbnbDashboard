@@ -344,3 +344,106 @@
     padding: 4px;
   }
 }
+
+/* Balance/Revenue Section */
+.balance-wrapper {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  min-width: 140px;
+  position: relative;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.balance-wrapper:hover {
+  background: #f7f7f7;
+  border-radius: 20px;
+}
+
+.balance-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.balance-icon {
+  background: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.balance-icon .material-icons {
+  color: #ff385c;
+  font-size: 18px;
+}
+
+.balance-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.balance-label {
+  color: #717171;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.balance-amount {
+  color: #222222;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.balance-chart {
+  display: none;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .balance-wrapper:hover {
+    background: #2d2d2d;
+  }
+
+  .balance-label {
+    color: #a0a0a0;
+  }
+
+  .balance-amount {
+    color: #e0e0e0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .balance-wrapper {
+    min-width: auto;
+    padding: 4px 6px;
+  }
+
+  .balance-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .balance-icon .material-icons {
+    font-size: 16px;
+  }
+
+  .balance-label {
+    font-size: 10px;
+  }
+
+  .balance-amount {
+    font-size: 12px;
+  }
+}

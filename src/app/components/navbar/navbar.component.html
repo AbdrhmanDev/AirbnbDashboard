@@ -14,12 +14,7 @@
     <div class="navbar-center">
       <div class="search-bar">
         <span class="material-icons">search</span>
-        <input
-          type="text"
-          placeholder="Search..."
-         
-          (keyup.enter)="onSearch()"
-        />
+        <input type="text" placeholder="Search..." (keyup.enter)="onSearch()" />
       </div>
     </div>
 
@@ -36,13 +31,26 @@
       </div>
 
       <!-- Total Revenue -->
-      <div class="balance-wrapper">
-        <div class="balance-icon">
-          <span class="material-icons">account_balance_wallet</span>
+      <div
+        class="balance-wrapper"
+        *ngIf="user?.role === 'Host' || user?.role === 'Admin'"
+      >
+        <div class="balance-content">
+          <div class="balance-icon">
+            <span class="material-icons">trending_up</span>
+          </div>
+          <div class="balance-info">
+            <span class="balance-label">Revenue</span>
+            <span class="balance-amount"
+              >${{ totalRevenue | number : "1.0-0" }}</span
+            >
+          </div>
         </div>
-        <div class="balance-info">
-          <span class="balance-label">Total Revenue</span>
-          <span class="balance-amount">${{ totalRevenue }}</span>
+        <div class="balance-chart">
+          <div
+            class="chart-bar"
+            [style.width.%]="(totalRevenue / 10000) * 100"
+          ></div>
         </div>
       </div>
 
