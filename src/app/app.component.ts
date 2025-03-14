@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AsideComponent } from './components/aside/aside.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -15,9 +15,14 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     RouterModule,
     NavbarComponent,
     AsideComponent,
-    DashboardComponent
-  ]
+    DashboardComponent,
+  ],
 })
 export class AppComponent {
   title = 'your-app-name';
+  constructor(private router: Router) {}
+
+  get showLayout(): boolean {
+    return this.router.url !== '/login'; // Hide navbar & sidebar on login page
+  }
 }

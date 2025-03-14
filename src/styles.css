@@ -23,7 +23,15 @@
   background-color: #ffffff !important;
   color: #000 !important;
 }
-
+.mdc-floating-label
+{
+  color: black !important;
+  
+}
+input{
+  color: black !important;
+}
+ mat-mdc-floating-label
 html,
 body {
   height: 100%;

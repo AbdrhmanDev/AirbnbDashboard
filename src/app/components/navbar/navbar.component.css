@@ -50,9 +50,59 @@
   color: #222222;
 }
 
-.logo img {
-  height: 32px;
-  width: auto;
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.logo-link:hover {
+  background-color: #fff1f1;
+}
+
+.logo-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #ff385c 0%, #e31c5f 100%);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(255, 56, 92, 0.25);
+}
+
+.logo-icon .material-icons {
+  font-size: 22px;
+  color: white;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.logo-name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #ff385c;
+  letter-spacing: -0.5px;
+}
+
+.logo-tagline {
+  font-size: 12px;
+  font-weight: 500;
+  color: #717171;
+  letter-spacing: 0.5px;
 }
 
 /* Center Section */
@@ -553,5 +603,37 @@
 
   .balance-amount {
     font-size: 12px;
+  }
+
+  .logo-tagline {
+    display: none;
+  }
+
+  .logo-name {
+    font-size: 18px;
+  }
+
+  .logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .logo-icon .material-icons {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    display: none;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .logo-icon .material-icons {
+    font-size: 22px;
   }
 }

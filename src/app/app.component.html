@@ -1,4 +1,4 @@
-<div class="app-container">
+<div class="app-container" *ngIf="showLayout">
   <app-navbar></app-navbar>
   <div class="main-wrapper">
     <app-aside></app-aside>
@@ -6,4 +6,9 @@
       <router-outlet></router-outlet>
     </main>
   </div>
+</div>
+
+<!-- Show only the login page when on /login -->
+<div *ngIf="!showLayout">
+  <router-outlet></router-outlet>
 </div>
