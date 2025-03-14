@@ -1,55 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-@import 'swiper/css';
-@import 'swiper/css/navigation';
-@import 'swiper/css/pagination';
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
 
-
-/* RTL Support */
-[dir="rtl"] {
-  text-align: right;
-}
-
-[dir="ltr"] {
-  text-align: left;
-}
-
-/* Font Families */
-[dir="rtl"] body {
-  font-family: 'Cairo', sans-serif;
-}
-
-[dir="ltr"] body {
-  font-family: 'Roboto', sans-serif;
-}
-
-/* Layout Adjustments */
-[dir="rtl"] .material-icons {
-  margin-left: 8px;
-  margin-right: 0;
-}
-
-[dir="ltr"] .material-icons {
-  margin-right: 8px;
-  margin-left: 0;
-}
-
-/* Margins and Paddings */
-[dir="rtl"] .ml-auto {
-  margin-right: auto !important;
-  margin-left: 0 !important;
-}
-
-[dir="ltr"] .ml-auto {
-  margin-left: auto !important;
-  margin-right: 0 !important;
-}
+/* Material Overrides */
 .mat-mdc-card {
   background-color: #fff !important;
-}
-.mat-mdc-table{
-  background-color: #fff !important;
+  color: #000 !important;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.mat-mdc-table {
+  background-color: #ffffff !important;
+  color: #000 !important;
+}
+
+.mat-mdc-row {
+  color: #000 !important;
+}
+
+.mat-mdc-paginator-container{
+  background-color: #ffffff !important;
+  color: #000 !important;
+}
+
+html,
+body {
+  height: 100%;
+  background-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: #222222;
+}

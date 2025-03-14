@@ -89,41 +89,6 @@
   padding-top: 16px;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .sidebar-container {
-    background: #1a1a1a;
-    border-right-color: #2d2d2d;
-  }
-
-  .nav-item a {
-    color: #e0e0e0;
-  }
-
-  .nav-item:hover a,
-  .nav-item.active a {
-    background-color: #2d2d2d;
-    color: #ffffff;
-  }
-
-  .nav-item.active a::after {
-    background-color: #ffffff;
-  }
-
-  .material-icons {
-    color: #a0a0a0;
-  }
-
-  .nav-item:hover .material-icons,
-  .nav-item.active .material-icons {
-    color: #ffffff;
-  }
-
-  .settings-menu {
-    border-top-color: #2d2d2d;
-  }
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .sidebar-container {

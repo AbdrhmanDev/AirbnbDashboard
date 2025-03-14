@@ -142,70 +142,70 @@
     </div>
 
     <!-- Recent Bookings -->
-    <mat-card class="recent-bookings">
-      <mat-card-header>
-        <mat-card-title>Recent Bookings</mat-card-title>
-        <button mat-button color="primary" routerLink="/bookings">
-          View All
-          <mat-icon>arrow_forward</mat-icon>
-        </button>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="table-container mat-elevation-z8">
-          <table mat-table [dataSource]="recentBookings">
-            <!-- Booking ID Column -->
-            <ng-container matColumnDef="bookingId">
-              <th mat-header-cell *matHeaderCellDef>Booking ID</th>
-              <td mat-cell *matCellDef="let booking">{{ booking._id }}</td>
-            </ng-container>
-
-            <!-- Guest Column -->
-            <ng-container matColumnDef="guest">
-              <th mat-header-cell *matHeaderCellDef>Guest</th>
-              <td mat-cell *matCellDef="let booking">
-                {{ booking.userId?.firstName }} {{ booking.userId?.lastName }}
-              </td>
-            </ng-container>
-
-            <!-- Property Column -->
-            <ng-container matColumnDef="property">
-              <th mat-header-cell *matHeaderCellDef>Property</th>
-              <td mat-cell *matCellDef="let booking">
-                {{ booking.propertyId?.title }}
-              </td>
-            </ng-container>
-
-            <!-- Check-in Date Column -->
-            <ng-container matColumnDef="checkIn">
-              <th mat-header-cell *matHeaderCellDef>Check-in</th>
-              <td mat-cell *matCellDef="let booking">
-                {{ formatDate(booking.checkIn) }}
-              </td>
-            </ng-container>
-
-            <!-- Status Column -->
-            <ng-container matColumnDef="status">
-              <th mat-header-cell *matHeaderCellDef>Status</th>
-              <td mat-cell *matCellDef="let booking">
-                <span class="status-badge" [class]="booking.status">
-                  {{ booking.status }}
-                </span>
-              </td>
-            </ng-container>
-
-            <!-- Amount Column -->
-            <ng-container matColumnDef="amount">
-              <th mat-header-cell *matHeaderCellDef>Amount</th>
-              <td mat-cell *matCellDef="let booking">
-                {{ formatCurrency(booking.totalPrice) }}
-              </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-          </table>
-        </div>
-      </mat-card-content>
-    </mat-card>
   </div>
 </div>
+<mat-card class="recent-bookings">
+  <mat-card-header>
+    <mat-card-title>Recent Bookings</mat-card-title>
+    <button mat-button color="primary" routerLink="/bookings">
+      View All
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="recentBookings">
+        <!-- Booking ID Column -->
+        <ng-container matColumnDef="bookingId">
+          <th mat-header-cell *matHeaderCellDef>Booking ID</th>
+          <td mat-cell *matCellDef="let booking">{{ booking._id }}</td>
+        </ng-container>
+
+        <!-- Guest Column -->
+        <ng-container matColumnDef="guest">
+          <th mat-header-cell *matHeaderCellDef>Guest</th>
+          <td mat-cell *matCellDef="let booking">
+            {{ booking.userId?.firstName }} {{ booking.userId?.lastName }}
+          </td>
+        </ng-container>
+
+        <!-- Property Column -->
+        <ng-container matColumnDef="property">
+          <th mat-header-cell *matHeaderCellDef>Property</th>
+          <td mat-cell *matCellDef="let booking">
+            {{ booking.propertyId?.title }}
+          </td>
+        </ng-container>
+
+        <!-- Check-in Date Column -->
+        <ng-container matColumnDef="checkIn">
+          <th mat-header-cell *matHeaderCellDef>Check-in</th>
+          <td mat-cell *matCellDef="let booking">
+            {{ formatDate(booking.checkIn) }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let booking">
+            <span class="status-badge" [class]="booking.status">
+              {{ booking.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Amount Column -->
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let booking">
+            {{ formatCurrency(booking.totalPrice) }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+  </mat-card-content>
+</mat-card>

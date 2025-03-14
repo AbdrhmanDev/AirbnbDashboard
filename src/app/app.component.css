@@ -62,13 +62,6 @@
   box-sizing: border-box;
 }
 
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-  .main-content {
-    background-color: #1a1a1a;
-  }
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .sidebar {

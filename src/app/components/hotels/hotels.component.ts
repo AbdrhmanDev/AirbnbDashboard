@@ -40,7 +40,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonToggleModule,
     MatProgressSpinnerModule,
     MatChipsModule,
-   
+
     FormsModule,
     MatDialogModule,
   ],

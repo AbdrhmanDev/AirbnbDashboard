@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { NotificationsComponent } from '../notifications/notifications.component';
@@ -19,6 +26,8 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  @ViewChild('notificationsContainer') notificationsContainer!: ElementRef;
+
   notifications = [
     {
       id: 1,
@@ -60,7 +69,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private userStateService: UserStateService,
     private bookingService: BookingService,
-    private router: Router
+    private router: Router,
+    private elementRef: ElementRef
   ) {}
 
   ngOnInit() {
@@ -172,7 +182,28 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleNotifications() {
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    if (this.showNotifications) {
+      const notificationsElement = this.notificationsContainer?.nativeElement;
+      if (
+        notificationsElement &&
+        !notificationsElement.contains(event.target)
+      ) {
+        this.showNotifications = false;
+      }
+    }
+  }
+
+  @HostListener('window:scroll')
+  onWindowScroll() {
+    if (this.showNotifications) {
+      this.showNotifications = false;
+    }
+  }
+
+  toggleNotifications(event: Event) {
+    event.stopPropagation(); // Prevent the click from immediately closing the dropdown
     this.showNotifications = !this.showNotifications;
   }
 

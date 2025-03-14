@@ -50,7 +50,7 @@
       </div>
       <div class="stat-details">
         <h3>Total Revenue</h3>
-        <div class="stat-value">{{ totalRevenue | currency : "SAR" }}</div>
+        <div class="stat-value">{{ totalRevenue | currency : "$" }}</div>
         <div
           class="stat-change"
           [ngClass]="{
@@ -108,7 +108,7 @@
           <tbody>
             <tr *ngFor="let payment of latestPayments">
               <td>{{ payment.userId }}</td>
-              <td>{{ payment.amount | currency : "SAR" }}</td>
+              <td>{{ payment.amount | currency : "$" }}</td>
               <td>{{ payment.createdAt | date : "short" }}</td>
               <td>
                 <span [class]="'status ' + payment.status">{{
@@ -137,7 +137,7 @@
             <tr *ngFor="let summary of paymentSummary">
               <td>{{ summary.status }}</td>
               <td>{{ summary.count }}</td>
-              <td>{{ summary.totalAmount | currency : "SAR" }}</td>
+              <td>{{ summary.totalAmount | currency : "$" }}</td>
               <td>{{ summary.percentage }}%</td>
             </tr>
           </tbody>
